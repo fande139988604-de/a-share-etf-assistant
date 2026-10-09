@@ -39,3 +39,5 @@ OpenAPI：https://fande139988604-de.github.io/a-share-etf-assistant/openapi.json
 当前剩余事项：解决 ChatGPT 任务的实际读取能力错误；验证手机实际收到任务通知；在未来交易日完成 14:30 新鲜采集实测。请求已保存在 CLOUD_REMINDER_PROMPT.txt；手机状态见 reports/cloud-reminder-status.json。
 
 Computer Use 和浏览器控制均因本机工具运行错误未能连接。没有索取或公开密码、个人 Token、Cookies、持仓信息或手机截图；仓库提交使用 GitHub 平台授权。
+
+最终测试反馈：用户确认原 ChatGPT 对话仍提示读取失败或 DisabledError。云端提醒保存及手机通知权限已经确认，实际行情读取接入尚未完成；手机任务推送到达也未取得证据。

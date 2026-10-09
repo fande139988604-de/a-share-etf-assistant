@@ -21,5 +21,7 @@
   "setting_request_sent": true,
   "read_capability_diagnosis_requested": true,
   "html_fallback_and_existing_task_immediate_test_requested": true,
-  "computer_use_error": "failed to write kernel assets: system cannot find the specified path (os error 3)"
+  "computer_use_error": "failed to write kernel assets: system cannot find the specified path (os error 3)",
+  "final_read_test_failure_user_confirmed": true,
+  "final_user_feedback": "Still reports read failure or DisabledError after the final fallback test request."
 }

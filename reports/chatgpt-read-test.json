@@ -8,5 +8,6 @@
   "phone_app_and_os_notifications_enabled_user_confirmed": true,
   "phone_notification_verified": false,
   "chatgpt_action_verified": false,
-  "note": "HTTP200 through ordinary anonymous requests does not prove a ChatGPT task can read the endpoint."
+  "note": "HTTP200 through ordinary anonymous requests does not prove a ChatGPT task can read the endpoint.",
+  "final_read_test_failure_user_confirmed": true
 }
