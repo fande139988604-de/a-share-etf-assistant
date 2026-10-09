@@ -13,6 +13,36 @@ from etf_assistant.provider import worker_call
 from etf_assistant.worker import run_worker
 
 
+def test_static_html_contains_exact_json_and_escapes_untrusted_text(tmp_path):
+    from html.parser import HTMLParser
+    from scripts.render_snapshot import render_snapshot
+
+    document = build_snapshot({}, {}, timestamp("2026-10-09 16:30"))
+    document["test_text"] = "<script>alert('test')</script>&中文"
+    rendered = render_snapshot(document)
+    assert "<script>" not in rendered
+
+    class JSONBlock(HTMLParser):
+        active = False
+        fragments = []
+
+        def handle_starttag(self, tag, attrs):
+            if tag == "pre" and dict(attrs).get("id") == "snapshot-json":
+                self.active = True
+
+        def handle_endtag(self, tag):
+            if tag == "pre":
+                self.active = False
+
+        def handle_data(self, text):
+            if self.active:
+                self.fragments.append(text)
+
+    parser = JSONBlock()
+    parser.feed(rendered)
+    assert json.loads("".join(parser.fragments)) == document
+
+
 def test_actual_akshare_parser_retains_same_response_identity(monkeypatch):
     import requests
     at = "2026-10-09 14:30"

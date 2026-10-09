@@ -38,14 +38,16 @@ jobs:
           REPO_SLUG: ${{ github.repository }}
           REF_NAME: ${{ github.event.repository.default_branch }}
           PAGES_BASE: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
-        run: python scripts/make_openapi.py "${PAGES_BASE}/latest.json"
+        run: |
+          python scripts/make_openapi.py "${PAGES_BASE}/latest.json"
+          python scripts/render_snapshot.py
       - name: Publish JSON with built-in repository token
         if: always() && steps.capture.outcome != 'skipped'
         run: |
           test -f public/latest.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -f public/latest.json public/archive/ public/openapi.json
+          git add -f public/latest.json public/archive/ public/openapi.json public/snapshot.html
           if ! git diff --cached --quiet; then
             git commit -m "Publish validated index snapshot"
             git push

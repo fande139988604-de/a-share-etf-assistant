@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>14:30指数行情与风险快照</title>
+<style>body{font:16px/1.6 system-ui,sans-serif;max-width:960px;margin:32px auto;padding:0 20px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f6f8;padding:20px;border-radius:8px}</style></head>
+<body><h1>14:30指数行情与风险快照</h1>
+<p>下面是本次发布的完整原始JSON。它是定时快照，读取时必须重新核验来源时间、交易日、指数身份和300秒新鲜度；不能只看采集时的成功状态。</p>
+<p><a href="latest.json">JSON接口</a> · <a href="openapi.json">只读接口说明</a></p>
+<pre id="snapshot-json">{
+  &quot;schema_version&quot;: &quot;1.0&quot;,
+  &quot;data_kind&quot;: &quot;live&quot;,
+  &quot;status&quot;: &quot;unavailable&quot;,
+  &quot;generated_at&quot;: &quot;2026-10-09T21:06:33.402676+08:00&quot;,
+  &quot;timezone&quot;: &quot;Asia/Shanghai&quot;,
+  &quot;target_at&quot;: &quot;2026-10-09T14:30:00+08:00&quot;,
+  &quot;max_age_seconds&quot;: 300,
+  &quot;live_usable_at_collection&quot;: false,
+  &quot;expires_at&quot;: null,
+  &quot;trading_day&quot;: {
+    &quot;source&quot;: &quot;akshare.tool_trade_date_hist_sina&quot;,
+    &quot;checked_at&quot;: &quot;2026-10-09T21:06:28.842351+08:00&quot;,
+    &quot;date&quot;: &quot;2026-10-09&quot;,
+    &quot;is_trading_day&quot;: true,
+    &quot;coverage_start&quot;: &quot;1990-12-19&quot;,
+    &quot;coverage_end&quot;: &quot;2026-12-31&quot;,
+    &quot;status&quot;: &quot;verified&quot;
+  },
+  &quot;indices&quot;: [
+    {
+      &quot;canonical_code&quot;: &quot;000510&quot;,
+      &quot;canonical_name&quot;: &quot;中证A500&quot;,
+      &quot;instrument_type&quot;: &quot;index&quot;,
+      &quot;status&quot;: &quot;stale_data&quot;,
+      &quot;valid_at_collection&quot;: false,
+      &quot;identity_verified&quot;: true,
+      &quot;source&quot;: {
+        &quot;provider&quot;: &quot;eastmoney&quot;,
+        &quot;interface&quot;: &quot;akshare.index_zh_a_hist_min_em&quot;,
+        &quot;secid&quot;: &quot;1.000510&quot;,
+        &quot;response_code&quot;: &quot;000510&quot;,
+        &quot;response_name&quot;: &quot;中证A500&quot;,
+        &quot;identity_origin&quot;: &quot;same_minute_response&quot;,
+        &quot;response_sha256&quot;: &quot;41e0f2ac6115301c67a713aab0a8eb999ac92bfc51ff421705ccfa8fd8afad03&quot;,
+        &quot;received_at&quot;: &quot;2026-10-09T21:06:31.230882+08:00&quot;,
+        &quot;period_minutes&quot;: 1,
+        &quot;transport&quot;: &quot;curl_cffi_chrome&quot;,
+        &quot;timestamp_kind&quot;: &quot;source_minute_bar_time&quot;,
+        &quot;timestamp_timezone&quot;: &quot;Asia/Shanghai&quot;
+      },
+      &quot;source_timestamp&quot;: &quot;2026-10-09T14:35:00+08:00&quot;,
+      &quot;age_seconds&quot;: 23493.402676,
+      &quot;expires_at&quot;: null,
+      &quot;quote&quot;: null,
+      &quot;reasons&quot;: [
+        &quot;stale_data&quot;
+      ]
+    },
+    {
+      &quot;canonical_code&quot;: &quot;399673&quot;,
+      &quot;canonical_name&quot;: &quot;创业板50&quot;,
+      &quot;instrument_type&quot;: &quot;index&quot;,
+      &quot;status&quot;: &quot;stale_data&quot;,
+      &quot;valid_at_collection&quot;: false,
+      &quot;identity_verified&quot;: true,
+      &quot;source&quot;: {
+        &quot;provider&quot;: &quot;eastmoney&quot;,
+        &quot;interface&quot;: &quot;akshare.index_zh_a_hist_min_em&quot;,
+        &quot;secid&quot;: &quot;0.399673&quot;,
+        &quot;response_code&quot;: &quot;399673&quot;,
+        &quot;response_name&quot;: &quot;创业板50&quot;,
+        &quot;identity_origin&quot;: &quot;same_minute_response&quot;,
+        &quot;response_sha256&quot;: &quot;1dd3a1780ca7c3d1512971beb1d7034a1b521beae81e0274abd7c7a7824db0c8&quot;,
+        &quot;received_at&quot;: &quot;2026-10-09T21:06:33.307767+08:00&quot;,
+        &quot;period_minutes&quot;: 1,
+        &quot;transport&quot;: &quot;curl_cffi_chrome&quot;,
+        &quot;timestamp_kind&quot;: &quot;source_minute_bar_time&quot;,
+        &quot;timestamp_timezone&quot;: &quot;Asia/Shanghai&quot;
+      },
+      &quot;source_timestamp&quot;: &quot;2026-10-09T14:35:00+08:00&quot;,
+      &quot;age_seconds&quot;: 23493.402676,
+      &quot;expires_at&quot;: null,
+      &quot;quote&quot;: null,
+      &quot;reasons&quot;: [
+        &quot;stale_data&quot;
+      ]
+    }
+  ],
+  &quot;consumer_rule&quot;: &quot;Recheck date, identity, source_timestamp, expires_at and age&lt;=300 seconds at READ time. Collection validity does not imply current freshness.&quot;,
+  &quot;signal&quot;: null,
+  &quot;risk_analysis&quot;: {
+    &quot;method&quot;: &quot;intraday_close_rules_v1&quot;,
+    &quot;status&quot;: &quot;unavailable&quot;,
+    &quot;scope&quot;: &quot;two_indices_intraday_close_observations&quot;,
+    &quot;backtested&quot;: false,
+    &quot;sell_order&quot;: null,
+    &quot;threshold_basis&quot;: &quot;configurable_initial_observation_thresholds_not_optimized&quot;,
+    &quot;rules&quot;: [
+      {
+        &quot;id&quot;: &quot;peak_drawdown&quot;,
+        &quot;metric&quot;: &quot;drawdown_from_sampled_peak_pct&quot;,
+        &quot;threshold_pct&quot;: 1.5,
+        &quot;comparison&quot;: &quot;&gt;=&quot;,
+        &quot;description&quot;: &quot;较当日已观察到的最高分钟收盘点回撤至少1.5%&quot;
+      },
+      {
+        &quot;id&quot;: &quot;fast_decline&quot;,
+        &quot;metric&quot;: &quot;return_20m_pct&quot;,
+        &quot;threshold_pct&quot;: -0.8,
+        &quot;comparison&quot;: &quot;&lt;=&quot;,
+        &quot;description&quot;: &quot;最近20分钟收盘点下跌至少0.8%&quot;
+      },
+      {
+        &quot;id&quot;: &quot;morning_low_break&quot;,
+        &quot;metric&quot;: &quot;below_morning_sampled_low_pct&quot;,
+        &quot;threshold_pct&quot;: 0.3,
+        &quot;comparison&quot;: &quot;&gt;=&quot;,
+        &quot;description&quot;: &quot;跌破上午最低分钟收盘点至少0.3%&quot;
+      }
+    ],
+    &quot;indices&quot;: [
+      {
+        &quot;canonical_code&quot;: &quot;000510&quot;,
+        &quot;canonical_name&quot;: &quot;中证A500&quot;,
+        &quot;status&quot;: &quot;unavailable&quot;,
+        &quot;level&quot;: &quot;unavailable&quot;,
+        &quot;as_of&quot;: null,
+        &quot;expires_at&quot;: null,
+        &quot;metrics&quot;: null,
+        &quot;triggers&quot;: [],
+        &quot;reasons&quot;: [
+          &quot;fresh_snapshot_required&quot;
+        ]
+      },
+      {
+        &quot;canonical_code&quot;: &quot;399673&quot;,
+        &quot;canonical_name&quot;: &quot;创业板50&quot;,
+        &quot;status&quot;: &quot;unavailable&quot;,
+        &quot;level&quot;: &quot;unavailable&quot;,
+        &quot;as_of&quot;: null,
+        &quot;expires_at&quot;: null,
+        &quot;metrics&quot;: null,
+        &quot;triggers&quot;: [],
+        &quot;reasons&quot;: [
+          &quot;fresh_snapshot_required&quot;
+        ]
+      }
+    ],
+    &quot;consumer_rule&quot;: &quot;Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe.&quot;
+  }
+}</pre>
+</body></html>
