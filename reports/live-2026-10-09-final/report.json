@@ -1,0 +1,70 @@
+{
+  "test": "real_network_akshare_probe",
+  "tested_at": "2026-10-09T16:50:46.605090+08:00",
+  "calendar": {
+    "source": "akshare.tool_trade_date_hist_sina",
+    "checked_at": "2026-10-09T16:50:35.976158+08:00",
+    "date": "2026-10-09",
+    "is_trading_day": true,
+    "coverage_start": "1990-12-19",
+    "coverage_end": "2026-12-31",
+    "status": "verified"
+  },
+  "indices": [
+    {
+      "code": "000510",
+      "identity_verified": true,
+      "minute_rows": 1205,
+      "first_source_timestamp": "2026-09-28 09:30:00",
+      "latest_source_timestamp": "2026-10-09 15:00:00",
+      "today_1430_rows": [
+        {
+          "time": "2026-10-09 14:30:00",
+          "close": 5302.96
+        }
+      ],
+      "attempts": [
+        {
+          "market": 1,
+          "period_minutes": 1,
+          "error": null,
+          "error_type": null,
+          "response_code": "000510",
+          "response_name": "中证A500"
+        }
+      ],
+      "error": null,
+      "akshare_version": "1.19.1",
+      "transport": "curl_cffi_chrome"
+    },
+    {
+      "code": "399673",
+      "identity_verified": true,
+      "minute_rows": 1205,
+      "first_source_timestamp": "2026-09-28 09:30:00",
+      "latest_source_timestamp": "2026-10-09 15:00:00",
+      "today_1430_rows": [
+        {
+          "time": "2026-10-09 14:30:00",
+          "close": 3146.5
+        }
+      ],
+      "attempts": [
+        {
+          "market": 0,
+          "period_minutes": 1,
+          "error": null,
+          "error_type": null,
+          "response_code": "399673",
+          "response_name": "创业板50"
+        }
+      ],
+      "error": null,
+      "akshare_version": "1.19.1",
+      "transport": "curl_cffi_chrome"
+    }
+  ],
+  "fresh_1430_snapshot_verified": false,
+  "deployment_verified": false,
+  "chatgpt_action_verified": false
+}

@@ -1,0 +1,21 @@
+{
+  "project": "A股ETF实时行情助手",
+  "rebuilt_original_zip_unavailable": true,
+  "offline_tests": {
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "live_test_at": "2026-10-09T16:50:46.605090+08:00",
+  "live_calendar_verified": true,
+  "both_index_identities_verified": true,
+  "fresh_1430_snapshot_verified": false,
+  "cloud_deployment_verified": false,
+  "public_https_verified": false,
+  "chatgpt_action_verified": false,
+  "cloud_scheduled_task_created": false,
+  "phone_notification_verified": false,
+  "deployment_blocker": "User registered GitHub; official browser authorization and deployment pending.",
+  "authorization": "User authorized a new public a-share-etf-assistant repository and deployment."
+}

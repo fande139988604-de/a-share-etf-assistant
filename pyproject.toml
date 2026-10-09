@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "a-share-etf-assistant"
+version = "1.0.0"
+description = "Strict timestamp-validated A-share index snapshots around 14:30"
+requires-python = ">=3.11"
+dependencies = ["akshare>=1.18,<2", "requests>=2.32,<3", "curl_cffi>=0.13,<1", "tzdata>=2025.2"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10", "jsonschema>=4.23,<5", "PyYAML>=6,<7"]
+
+[project.scripts]
+etf-assistant = "etf_assistant.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["etf_assistant*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

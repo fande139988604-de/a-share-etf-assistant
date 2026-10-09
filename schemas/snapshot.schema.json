@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "A-share index 14:30 snapshot",
+  "type": "object",
+  "required": ["schema_version", "data_kind", "status", "generated_at", "target_at", "timezone", "max_age_seconds", "live_usable_at_collection", "expires_at", "trading_day", "indices"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "data_kind": {"enum": ["live", "offline_fixture"]},
+    "status": {"enum": ["ok", "unavailable", "market_closed", "calendar_unverified"]},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "target_at": {"type": "string", "format": "date-time"},
+    "timezone": {"const": "Asia/Shanghai"},
+    "max_age_seconds": {"const": 300},
+    "live_usable_at_collection": {"type": "boolean"},
+    "expires_at": {"type": ["string", "null"]},
+    "trading_day": {
+      "type": "object",
+      "required": ["date", "is_trading_day", "status", "coverage_start", "coverage_end"],
+      "properties": {
+        "date": {"type": "string", "format": "date"},
+        "is_trading_day": {"type": ["boolean", "null"]},
+        "status": {"enum": ["unknown", "verified"]},
+        "coverage_start": {"type": ["string", "null"]},
+        "coverage_end": {"type": ["string", "null"]}
+      }
+    },
+    "indices": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["canonical_code", "canonical_name", "instrument_type", "status", "identity_verified", "source", "source_timestamp", "age_seconds", "expires_at", "valid_at_collection", "quote", "reasons"],
+        "properties": {
+          "canonical_code": {"enum": ["000510", "399673"]},
+          "canonical_name": {"type": "string"},
+          "instrument_type": {"const": "index"},
+          "status": {"type": "string"},
+          "identity_verified": {"type": "boolean"},
+          "valid_at_collection": {"type": "boolean"},
+          "source_timestamp": {"type": ["string", "null"]},
+          "age_seconds": {"type": ["number", "null"]},
+          "expires_at": {"type": ["string", "null"]},
+          "source": {
+            "type": "object",
+            "required": ["provider", "interface", "secid", "response_code", "response_name", "identity_origin", "received_at", "timestamp_kind", "period_minutes"],
+            "properties": {
+              "provider": {"const": "eastmoney"},
+              "interface": {"const": "akshare.index_zh_a_hist_min_em"},
+              "timestamp_kind": {"const": "source_minute_bar_time"}
+            }
+          },
+          "quote": {
+            "type": ["object", "null"],
+            "required": ["close", "unit"],
+            "properties": {"close": {"type": "number", "exclusiveMinimum": 0}, "unit": {"const": "index_points"}}
+          },
+          "reasons": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

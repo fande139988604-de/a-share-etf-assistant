@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "data_kind": "live",
+  "status": "unavailable",
+  "generated_at": "2026-10-09T16:58:15.124414+08:00",
+  "timezone": "Asia/Shanghai",
+  "target_at": "2026-10-09T14:30:00+08:00",
+  "max_age_seconds": 300,
+  "live_usable_at_collection": false,
+  "expires_at": null,
+  "trading_day": {
+    "source": "akshare.tool_trade_date_hist_sina",
+    "checked_at": "2026-10-09T16:58:04.207278+08:00",
+    "date": "2026-10-09",
+    "is_trading_day": true,
+    "coverage_start": "1990-12-19",
+    "coverage_end": "2026-12-31",
+    "status": "verified"
+  },
+  "indices": [
+    {
+      "canonical_code": "000510",
+      "canonical_name": "中证A500",
+      "instrument_type": "index",
+      "status": "stale_data",
+      "valid_at_collection": false,
+      "identity_verified": true,
+      "source": {
+        "provider": "eastmoney",
+        "interface": "akshare.index_zh_a_hist_min_em",
+        "secid": "1.000510",
+        "response_code": "000510",
+        "response_name": "中证A500",
+        "identity_origin": "same_minute_response",
+        "response_sha256": "075c6a56b9ab0b0d33a56ab5348191cf51a5087e1a792691478bff021f5f3eaf",
+        "received_at": "2026-10-09T16:58:09.394994+08:00",
+        "period_minutes": 1,
+        "transport": "curl_cffi_chrome",
+        "timestamp_kind": "source_minute_bar_time",
+        "timestamp_timezone": "Asia/Shanghai"
+      },
+      "source_timestamp": "2026-10-09T14:35:00+08:00",
+      "age_seconds": 8595.124414,
+      "expires_at": null,
+      "quote": null,
+      "reasons": [
+        "stale_data"
+      ]
+    },
+    {
+      "canonical_code": "399673",
+      "canonical_name": "创业板50",
+      "instrument_type": "index",
+      "status": "stale_data",
+      "valid_at_collection": false,
+      "identity_verified": true,
+      "source": {
+        "provider": "eastmoney",
+        "interface": "akshare.index_zh_a_hist_min_em",
+        "secid": "0.399673",
+        "response_code": "399673",
+        "response_name": "创业板50",
+        "identity_origin": "same_minute_response",
+        "response_sha256": "1cd2876bc825eb01e460fffe9910d0cb89ed9d5cb22f2d231a4c6ff2ea036594",
+        "received_at": "2026-10-09T16:58:14.672156+08:00",
+        "period_minutes": 1,
+        "transport": "curl_cffi_chrome",
+        "timestamp_kind": "source_minute_bar_time",
+        "timestamp_timezone": "Asia/Shanghai"
+      },
+      "source_timestamp": "2026-10-09T14:35:00+08:00",
+      "age_seconds": 8595.124414,
+      "expires_at": null,
+      "quote": null,
+      "reasons": [
+        "stale_data"
+      ]
+    }
+  ],
+  "consumer_rule": "Recheck date, identity, source_timestamp, expires_at and age<=300 seconds at READ time. Collection validity does not imply current freshness.",
+  "signal": null
+}
