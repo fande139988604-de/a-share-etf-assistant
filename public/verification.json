@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-09T17:28:01.940903+08:00",
+  "checked_at": "2026-10-09T21:06:35.560342+08:00",
   "public_https_verified": true,
   "schema_verified": true,
   "chatgpt_action_verified": false,
@@ -10,5 +10,9 @@
   ],
   "http_status": 200,
   "content_type": "text/plain; charset=utf-8",
-  "published_snapshot_matches": true
+  "published_snapshot_matches": true,
+  "risk_usable_at_read": false,
+  "risk_reasons": [
+    "fresh_snapshot_required"
+  ]
 }
