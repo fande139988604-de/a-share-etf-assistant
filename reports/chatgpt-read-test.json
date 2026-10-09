@@ -1,10 +1,12 @@
 {
-  "url": "https://fande139988604-de.github.io/a-share-etf-assistant/latest.json",
-  "test": "ChatGPT web browsing tool open",
+  "json_url": "https://fande139988604-de.github.io/a-share-etf-assistant/latest.json",
+  "html_url": "https://fande139988604-de.github.io/a-share-etf-assistant/snapshot.html",
   "chatgpt_web_fetch_verified": false,
-  "tool_result": "URL is not accessible via this tool.",
-  "chatgpt_action_verified": false,
-  "chatgpt_cloud_task_created": false,
+  "codex_browsing_result": "JSON and HTML URLs are not accessible via this tool.",
+  "mobile_task_read_error_reported": "DisabledError",
+  "cloud_task_saved_user_confirmed": true,
+  "phone_app_and_os_notifications_enabled_user_confirmed": true,
   "phone_notification_verified": false,
-  "next_step": "Actual-account URL read and cloud task/notification test; see PHONE_SETUP.md."
+  "chatgpt_action_verified": false,
+  "note": "HTTP200 through ordinary anonymous requests does not prove a ChatGPT task can read the endpoint."
 }

@@ -1,0 +1,25 @@
+{
+  "task_title": "14:30指数行情与风险提醒",
+  "cloud_task_saved_user_confirmed": true,
+  "enabled_reported_on_mobile": true,
+  "time": "14:33",
+  "timezone": "Asia/Shanghai",
+  "weekdays": [
+    "MO",
+    "TU",
+    "WE",
+    "TH",
+    "FR"
+  ],
+  "next_run_reported": "2026-10-12T14:33:00+08:00",
+  "existing_task_updated_reported": true,
+  "evidence_basis": "Human user confirmed seeing the mobile card; supplied screenshots report the saved schedule. The task object could not be independently read by Codex.",
+  "phone_app_and_os_notifications_enabled_user_confirmed": true,
+  "phone_notification_delivery_verified": false,
+  "chatgpt_task_read_verified": false,
+  "read_error_reported_in_mobile_screenshot": "DisabledError",
+  "setting_request_sent": true,
+  "read_capability_diagnosis_requested": true,
+  "html_fallback_and_existing_task_immediate_test_requested": true,
+  "computer_use_error": "failed to write kernel assets: system cannot find the specified path (os error 3)"
+}

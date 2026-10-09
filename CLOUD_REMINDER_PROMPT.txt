@@ -11,3 +11,5 @@
 行情全部通过后，检查risk_analysis.status=ok、method=intraday_close_rules_v1；两个风险条目的as_of、expires_at与各自行情一致，metrics.current_close与行情点位一致。仅报告系统已经计算的风险值，不能编造缺失指标。三个初始观察项：当天最高分钟收盘点至当前回撤至少1.5%；最近20分钟下跌至少0.8%；跌破上午最低分钟收盘点至少0.3%。均未触发为no_trigger（不能称为安全），一个触发为watch，至少两个触发为elevated。列出点位、来源时间、读取时数据年龄、三项百分比和触发原因。风险历史不全或风险状态unavailable时仅说明无法分析。
 
 用户目前只选择两个指数的风险信号，没有提供ETF持仓、成本或卖出规则。不要给出直接卖出指令，不自动交易；这些阈值尚未回测。提醒我允许手机ChatGPT任务推送，并单独测试手机实际收到通知，不以接口成功代替通知到达。
+
+附加已保存要求：两个JSON地址都无法读取时，可实际读取 https://fande139988604-de.github.io/a-share-etf-assistant/snapshot.html ，pre#snapshot-json是完全相同的原始JSON；依旧严格核验来源时间并拒绝缓存过期。用户已确认原任务存在并启用、手机App和系统通知均已开启；保留原任务，实际验证读取和推送，不重复新建。

@@ -4,7 +4,7 @@
 
 ## 当前结果
 
-- 已完成代码；新增风险分析后本机 54 项离线测试通过，最新 Linux 云端结果见 DELIVERY_STATUS.md。
+- 已完成代码；本机及最新 Linux 云端各 55 项离线测试通过，详见 DELIVERY_STATUS.md。
 - 2026-10-09真实AKShare测试：交易日历覆盖1990-12-19至2026-12-31；中证A500000510和创业板50399673代码、名称均核验成功；均返回当天14:30分钟记录。详见 reports/live-2026-10-09-final/report.json。
 - 实测在收盘后进行，14:30记录只能证明真实分钟数据可取得，不能证明14:30采集时五分钟内新鲜。fresh_1430_snapshot_verified=false是正确结果。
 - GitHub Actions 已部署并启用，云端实际采集、JSON 发布和 Pages 部署已验证。公开数据：https://fande139988604-de.github.io/a-share-etf-assistant/latest.json 。ChatGPT 实际调用、手机通知及首次定时触发的 14:30 现场验证尚未完成；详见 DELIVERY_STATUS.md 和 PHONE_SETUP.md。
@@ -69,6 +69,8 @@ schema定义在schemas/snapshot.schema.json。主要字段：
 
 ## 风险提醒
 
+用户已在手机确认原 ChatGPT 云端任务更新为周一至周五北京时间14:33，通知权限也已开启；实际读取工具仍报DisabledError，推送送达尚未验证。公开完整JSON网页视图为 https://fande139988604-de.github.io/a-share-etf-assistant/snapshot.html 。
+
 用户选择先分析两个指数的风险信号。默认观察阈值是回撤至少1.5%、20分钟下跌至少0.8%、跌破上午最低分钟收盘点至少0.3%。一个触发项为watch，至少两个为elevated，无触发为no_trigger；无触发不代表安全。规则尚未回测，不能直接当作卖出指令，sell_order为null。完整定义、数据覆盖要求与局限见RISK_RULES.md。
 
 云端提醒设置请求见CLOUD_REMINDER_PROMPT.txt。提醒保存、实际URL读取和手机推送是三个单独的验证步骤，状态见DELIVERY_STATUS.md。
@@ -97,7 +99,7 @@ OWNER/REPO及main必须改为真实账号、仓库及默认分支；该示例不
 .\.venv\Scripts\python.exe -m etf_assistant.cli live-test --output-dir reports/live-current
 ```
 
-requirements.lock.txt固定本次验证环境。离线测试包括时间边界、午盘、跨日、错指数、日历超范围、未来时间、无时间、坏价格、重复冲突、缓存过期、TLS兼容传输、子进程超时、实际AKShare解析器、JSON Schema及工作流配置。Linux 云端 45 项测试已通过，证据为 reports/linux-ci/offline-ci.xml 和 reports/linux-ci-run.json。
+requirements.lock.txt固定本次验证环境。离线测试包括时间边界、午盘、跨日、错指数、日历超范围、未来时间、无时间、坏价格、重复冲突、缓存过期、TLS兼容传输、子进程超时、实际AKShare解析器、JSON Schema及工作流配置。最新 Linux 云端 55 项测试已通过，证据为 reports/linux-ci/offline-ci.xml 和 reports/linux-ci-run.json。
 
 ## 官方资料
 
