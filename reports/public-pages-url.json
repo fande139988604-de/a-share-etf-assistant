@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-10-09T17:33:14.721792+08:00",
+  "public_https_verified": true,
+  "schema_verified": true,
+  "chatgpt_action_verified": false,
+  "live_usable_at_read": false,
+  "reasons": [
+    "snapshot_not_live_and_valid",
+    "stale_data"
+  ],
+  "http_status": 200,
+  "content_type": "application/json; charset=utf-8",
+  "published_snapshot_matches": true
+}

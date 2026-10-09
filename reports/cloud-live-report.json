@@ -1,0 +1,29 @@
+{
+  "run_url": "https://github.com/fande139988604-de/a-share-etf-assistant/actions/runs/37911389310",
+  "generated_at": "2026-10-09T17:28:00.364250+08:00",
+  "trading_day": {
+    "source": "akshare.tool_trade_date_hist_sina",
+    "checked_at": "2026-10-09T17:27:55.191465+08:00",
+    "date": "2026-10-09",
+    "is_trading_day": true,
+    "coverage_start": "1990-12-19",
+    "coverage_end": "2026-12-31",
+    "status": "verified"
+  },
+  "indices": [
+    {
+      "code": "000510",
+      "identity_verified": true,
+      "minute_rows": 1205
+    },
+    {
+      "code": "399673",
+      "identity_verified": true,
+      "minute_rows": 1205
+    }
+  ],
+  "snapshot_status": "unavailable",
+  "fresh_1430_snapshot_verified": false,
+  "pages_deployment_verified": true,
+  "expected_after_hours_failure": true
+}

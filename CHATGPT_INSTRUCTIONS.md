@@ -1,33 +1,44 @@
-# 本机读取与手机通知
+# ChatGPT 读取与手机通知
 
-GitHub 不是必需。它只是电脑关机时继续采集的一种云端方案。
+云端采集已部署在 GitHub Actions，电脑关机也可运行。GitHub 只是本次采用的免费云端方案，并非手机通知必需的平台。
 
-本机方案：电脑开机、联网；本机 Python 采集；当前 Codex/桌面任务读取文件。Windows 定时任务只负责采集，不会自行发 ChatGPT 或手机通知。要手机提醒，还需在 ChatGPT/Codex 中保存定时任务，并在手机同一账号中开启相应通知；需要真实测试通知到达，不能仅凭脚本成功就声称推送成功。当前交付没有激活任何定时任务或通知。
+公开数据：https://fande139988604-de.github.io/a-share-etf-assistant/latest.json
 
-官方说明：需要本机文件的桌面定时任务要求电脑与应用保持运行；网页版任务不能直接读取电脑文件。计划、工具和通知入口可能因账号而异。
+OpenAPI：https://fande139988604-de.github.io/a-share-etf-assistant/openapi.json
 
-- 定时任务：https://learn.chatgpt.com/docs/automations
-- 通知：https://learn.chatgpt.com/docs/notifications
+备用数据：https://raw.githubusercontent.com/fande139988604-de/a-share-etf-assistant/main/public/latest.json
 
-## 可复制给当前 Codex 的定时任务要求（尚未创建）
+匿名 HTTPS、JSON 结构和发布内容一致性已验证。当前 Codex 浏览工具未能读取 Pages JSON，因此不能声称 ChatGPT 搜索、GPT Action 或手机任务已成功接入。
 
-在本对话中每周一至周五北京时间14:28启动本机项目，等待14:30采集中证A500（000510）和创业板50（399673）。必须使用实际交易日历排除休市日。在项目目录执行 scripts/run-local.ps1 -WaitFor1430，随后读取 public/latest.json 并执行 python -m etf_assistant.cli read-local。读取时重新核验指数身份、来源日期、分钟时间戳与300秒新鲜度。交易日采集成功时报告两个指数点位、各自来源时间戳及数据年龄；失败时明确报告失败原因。休市且无异常时保持安静。不能用午盘、昨日、过期或模拟数据生成买点。任务不应发送邮件、调用外部通知服务或修改 GitHub。请确认任务已经保存，并单独验证手机任务通知是否送达。
+## 手机云端任务
 
-说明：该文本只是待使用说明，不代表任务已建立。即使使用同一账号，原 ChatGPT 网页对话也不会自动获得当前本机文件，需要已连接的本机任务、上传文件或公共接口。
+按 PHONE_SETUP.md 在手机 ChatGPT 的支持任务功能中创建云端任务并启用推送。先做一次实际 URL 读取测试，再核验手机通知到达；若账号的任务工具无法访问该 URL，必须报告无法读取，不能用网页搜索摘要或本地缓存替代行情。
 
-## 公共 HTTPS + GPT Action（可选，当前未部署）
+当前没有创建 ChatGPT 云端任务，也没有验证手机通知。Codex 本机自动化需要电脑及应用运行，不能用于这项关机要求。
 
-若以后希望手机端直接向一个自定义 GPT 请求行情，可为项目部署公开 JSON 接口，再按官方 GPT Actions 流程导入 OpenAPI。此方案不需要 OpenAI API Key；GPT Actions 是否可用取决于账号。给出普通 URL 也不等于可靠地接入了每次查询，必须在 Action 测试按钮中看到实际返回。
+任务入口、可用工具和时间精度取决于账号及应用版本；手机推送需要在支持的手机应用创建任务并允许通知。
 
-1. 获得真实的 `https://.../public/latest.json`；先运行 `python -m etf_assistant.cli verify-url <真实URL>`。
-2. 运行 `python scripts/make_openapi.py <真实URL>` 生成 `public/openapi.json`。
-3. 在自定义 GPT 的 Actions 中导入生成的 schema，认证选 None；测试 `getIndexSnapshot`。
-4. 对返回体核对两个代码、交易日期、source_timestamp、expires_at；保存实际测试结果。离线 schema 测试不能替代该步骤。
+官方说明：https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt
+
+## 自定义 GPT Action（可选）
+
+如果实际账号支持 GPT Actions，可用真实 OpenAPI 建立只读接口，不需要 OpenAI API Key。
+
+1. 在 GPT 编辑器的 Actions 中导入上述 OpenAPI URL，或粘贴 public/openapi.json，认证选择 None。
+2. 测试 getIndexSnapshot，确认返回两个规范代码、来源名称、source_timestamp 和完整状态字段。
+3. 收盘后应返回 unavailable 及 quote=null。这只能验证接口可读，不能证明 14:30 新鲜采集成功。
+4. 另在真实交易日 14:30 至 14:35 测试读取时新鲜度。自定义 GPT Action 的成功不会自动建立手机定时任务或推送。
 
 https://developers.openai.com/api/docs/actions/introduction
 
 ## GPT 必须遵守的读取规则
 
-只有 `data_kind=live`、交易日状态 verified 且当日确为交易日、两个指数身份一致，才能继续检查价格。`status=ok` 表示采集时有效，不能代替读取时检查。读取时间减 source_timestamp 必须在0至300秒之间，source_timestamp 必须是当日北京时间14:25至14:35，读取本身也必须在14:30至14:35之内，且未超过 expires_at。任何字段缺失、未来时间、过期或状态失败都只输出“当前无可验证的新鲜14:30行情”，说明原因，不能给买点。
+只有 data_kind=live、status=ok、交易日状态 verified 且当日确为交易日、两个指数身份一致，才能继续检查价格。status=ok 只表示采集时有效，不能代替读取时检查。
 
-若用户晚上查看当天14:30档案，可以明确标为历史快照；不把它称为实时行情。本项目没有定义交易策略，`signal` 始终为 null。指数点位不等于 ETF 价格，也不意味着可按该点位交易。
+- 中证 A500 必须是 000510，来源名称为中证A500或中证A500指数，市场标识为 1.000510 或 2.000510；创业板 50 必须是 399673，来源名称为创业板50或创业板50指数，市场标识为 0.399673。身份必须来自同一分钟响应。
+- 来源日期、target_at、generated_at 和交易日必须为当日北京时间；行情时间必须来自 source_timestamp，不能用抓取时间替代。
+- 读取时间必须在北京时间 14:30 至 14:35；source_timestamp 必须在当日 14:25 至 14:35；读取时间减 source_timestamp 必须为 0 至 300 秒，且没有超过 expires_at。
+- 两个指数都必须通过上述校验，价格必须是正数且非空。任何字段缺失、身份错误、未来时间、午盘、过期、昨日或失败状态都只报告“当前无可验证的新鲜14:30行情”及原因。
+- 日历确认休市时可以保持安静；日历未知、下载失败、任务延迟、数据过期时必须报告失败，不能猜测是否开市。
+
+晚间查看当天档案时必须明确标为历史快照。指数点位不等于 ETF 价格；本项目 signal 始终为 null，不生成买入建议。

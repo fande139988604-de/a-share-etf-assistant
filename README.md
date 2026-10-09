@@ -4,16 +4,16 @@
 
 ## 当前结果
 
-- 已在本机完成代码和离线测试。
+- 已完成代码，本机及 Linux 云端各 45 项离线测试通过。
 - 2026-10-09真实AKShare测试：交易日历覆盖1990-12-19至2026-12-31；中证A500000510和创业板50399673代码、名称均核验成功；均返回当天14:30分钟记录。详见 reports/live-2026-10-09-final/report.json。
 - 实测在收盘后进行，14:30记录只能证明真实分钟数据可取得，不能证明14:30采集时五分钟内新鲜。fresh_1430_snapshot_verified=false是正确结果。
-- GitHub Actions配置已准备。云端运行、项目公开URL、ChatGPT实际调用及手机通知的最终状态见 DELIVERY_STATUS.md；没有对应实测证据时不能声称完成。
+- GitHub Actions 已部署并启用，云端实际采集、JSON 发布和 Pages 部署已验证。公开数据：https://fande139988604-de.github.io/a-share-etf-assistant/latest.json 。ChatGPT 实际调用、手机通知及首次定时触发的 14:30 现场验证尚未完成；详见 DELIVERY_STATUS.md 和 PHONE_SETUP.md。
 
 ## 电脑关机也能采集
 
 使用公开GitHub仓库的免费GitHub Actions。北京时间每周一至周五14:23启动，安装环境后等到14:30采集。运行时用真实交易日历跳过节假日，不能以工作日代替交易日。任务延迟到14:35以后会输出不可用，不伪造时间。GitHub官方不保证定时任务准点；若要严格的分钟级服务保证，需要其他常开服务器及调度服务。
 
-程序会把结构化JSON提交到仓库 public/latest.json，提供匿名可读HTTPS地址，并发布 public/verification.json 和可导入的 public/openapi.json。使用GitHub内置GITHUB_TOKEN，仅授予contents:write，不需要保存个人Token。公开JSON是定时快照，并非全天实时API。免费托管额度及服务条款以GitHub当前账号为准。
+程序会把结构化JSON提交到仓库 public/latest.json，提供匿名可读HTTPS地址，并发布 public/verification.json 和可导入的 public/openapi.json。使用 GitHub 内置 GITHUB_TOKEN 提交数据，采集仅授予 contents:write；Pages 发布单独授予 contents:read、pages:write 和 id-token:write。不需要保存个人 Token。公开JSON是定时快照，并非全天实时API。免费托管额度及服务条款以GitHub当前账号为准。
 
 手机消息另由ChatGPT云端定时任务负责读取该URL和发通知。GitHub工作流本身不会发送每日行情推送；部署成功不等于手机通知成功。CHATGPT_INSTRUCTIONS.md提供读取规则，需在实际账号中测试。电脑关机时不能依赖“本机桌面任务”。
 
@@ -66,11 +66,13 @@ schema定义在schemas/snapshot.schema.json。主要字段：
 | indices[].quote | 校验通过的指数点位，失败为null |
 | signal | null；尚未定义任何买点策略 |
 
-## 手工部署路径
+## 部署结果与复用路径
+
+本项目已经部署；以下步骤仅供以后在其他仓库复用。当前仓库为 https://github.com/fande139988604-de/a-share-etf-assistant 。主要数据地址为 https://fande139988604-de.github.io/a-share-etf-assistant/latest.json 。
 
 1. 在本人GitHub账号创建公开仓库，把本目录作为仓库根目录上传（包含.github/workflows）。不要上传.venv、work、代理设置、账号资料或密钥。
 2. 在仓库Actions中启用工作流。collect.yml需要内置Token的contents:write权限；如组织政策阻止，需要仓库管理员授权，不能添加未获授权的个人Token绕过。
-3. 点击“Collect 14:30 index snapshot”→“Run workflow”，验证云端运行、失败状态发布以及公开URL。在窗口外手动测试会采集真实数据但标记不可用，工作流可能以失败状态结束；这是预期。
+3. 在仓库 Settings → Pages 中选择 GitHub Actions 作为 Source，Pages 发布使用 pages:write 与 id-token:write。点击“Collect 14:30 index snapshot”→“Run workflow”，验证云端运行、失败状态发布以及公开URL。在窗口外手动测试会采集真实数据但标记不可用，工作流可能以失败状态结束；这是预期。
 4. 匿名测试真实URL：
 
 ```powershell
@@ -88,7 +90,7 @@ OWNER/REPO及main必须改为真实账号、仓库及默认分支；该示例不
 .\.venv\Scripts\python.exe -m etf_assistant.cli live-test --output-dir reports/live-current
 ```
 
-requirements.lock.txt固定本次验证环境。离线测试包括时间边界、午盘、跨日、错指数、日历超范围、未来时间、无时间、坏价格、重复冲突、缓存过期、TLS兼容传输、子进程超时、实际AKShare解析器、JSON Schema及工作流配置。Linux云端兼容性须以GitHub CI实际结果为准。
+requirements.lock.txt固定本次验证环境。离线测试包括时间边界、午盘、跨日、错指数、日历超范围、未来时间、无时间、坏价格、重复冲突、缓存过期、TLS兼容传输、子进程超时、实际AKShare解析器、JSON Schema及工作流配置。Linux 云端 45 项测试已通过，证据为 reports/linux-ci/offline-ci.xml 和 reports/linux-ci-run.json。
 
 ## 官方资料
 
