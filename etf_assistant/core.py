@@ -209,6 +209,9 @@ def assess_public_snapshot(document: dict, now: datetime) -> dict:
     reasons = []
     if document.get("data_kind") != "live" or document.get("status") != "ok":
         reasons.append("snapshot_not_live_and_valid")
+        for quote in document.get("indices", []):
+            reasons.extend(str(reason) for reason in quote.get("reasons", []))
+        return {"checked_at": now.isoformat(), "live_usable_at_read": False, "reasons": sorted(set(reasons))}
     try:
         generated = timestamp(document["generated_at"])
         target = timestamp(document["target_at"])

@@ -149,6 +149,7 @@ def test_public_transport_success_does_not_imply_live_or_chatgpt_success(monkeyp
     assert report["public_https_verified"] is True
     assert report["schema_verified"] is True
     assert report["live_usable_at_read"] is False
+    assert "malformed_snapshot" not in report["reasons"]
     assert report["chatgpt_action_verified"] is False
 
 
