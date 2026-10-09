@@ -42,3 +42,7 @@ https://developers.openai.com/api/docs/actions/introduction
 - 日历确认休市时可以保持安静；日历未知、下载失败、任务延迟、数据过期时必须报告失败，不能猜测是否开市。
 
 晚间查看当天档案时必须明确标为历史快照。指数点位不等于 ETF 价格；本项目 signal 始终为 null，不生成买入建议。
+
+## 风险观察
+
+用户已选择先分析两个指数的风险信号。行情读取校验全部通过后，还需risk_analysis.status=ok、method=intraday_close_rules_v1、两个风险条目的as_of和expires_at与各自行情一致、metrics.current_close与行情点位一致。报告risk_analysis中实际计算的数值和触发项，不自行补造指标。规则与初始阈值详见RISK_RULES.md；未回测，不构成卖出指令。no_trigger不表示安全；unavailable不表示无风险。可复制的完整任务请求见CLOUD_REMINDER_PROMPT.txt。

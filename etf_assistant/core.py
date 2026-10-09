@@ -186,7 +186,7 @@ def build_snapshot(calendar: dict, packets: dict[str, dict], now: datetime, data
         status = "market_closed"
     elif trading["is_trading_day"] is None:
         status = "calendar_unverified"
-    return {
+    document = {
         "schema_version": "1.0",
         "data_kind": data_kind,
         "status": status,
@@ -201,6 +201,9 @@ def build_snapshot(calendar: dict, packets: dict[str, dict], now: datetime, data
         "consumer_rule": "Recheck date, identity, source_timestamp, expires_at and age<=300 seconds at READ time. Collection validity does not imply current freshness.",
         "signal": None,
     }
+    from .risk import analyze_snapshot
+    document["risk_analysis"] = analyze_snapshot(packets, document, now)
+    return document
 
 
 def assess_public_snapshot(document: dict, now: datetime) -> dict:

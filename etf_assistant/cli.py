@@ -117,6 +117,8 @@ def verify_url(args) -> int:
                     raise ValueError("published_snapshot_mismatch")
             report.update(public_https_verified=True, schema_verified=True)
             report.update(assess_public_snapshot(document, shanghai_now()))
+            from .risk import assess_risk_at_read
+            report.update(assess_risk_at_read(document, shanghai_now()))
         except Exception as exc:
             report["reasons"].append("https_or_schema_check_failed:" + type(exc).__name__)
     write_json(Path(args.output), report)
@@ -128,6 +130,8 @@ def read_local(args) -> int:
     try:
         document = json.loads(Path(args.path).read_text(encoding="utf-8"))
         result = assess_public_snapshot(document, shanghai_now())
+        from .risk import assess_risk_at_read
+        result.update(assess_risk_at_read(document, shanghai_now()))
         result["snapshot"] = document
     except (OSError, ValueError):
         result = {"live_usable_at_read": False, "reasons": ["local_snapshot_unavailable"]}

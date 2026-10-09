@@ -13,6 +13,34 @@
     "max_age_seconds": {"const": 300},
     "live_usable_at_collection": {"type": "boolean"},
     "expires_at": {"type": ["string", "null"]},
+    "risk_analysis": {
+      "type": "object",
+      "required": ["method", "status", "backtested", "sell_order", "rules", "indices"],
+      "properties": {
+        "method": {"const": "intraday_close_rules_v1"},
+        "status": {"enum": ["ok", "unavailable"]},
+        "backtested": {"const": false},
+        "sell_order": {"const": null},
+        "rules": {"type": "array", "minItems": 3, "maxItems": 3},
+        "indices": {
+          "type": "array", "minItems": 2, "maxItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["canonical_code", "status", "level", "as_of", "expires_at", "metrics", "triggers", "reasons"],
+            "properties": {
+              "canonical_code": {"enum": ["000510", "399673"]},
+              "status": {"enum": ["ok", "unavailable"]},
+              "level": {"enum": ["no_trigger", "watch", "elevated", "unavailable"]},
+              "as_of": {"type": ["string", "null"]},
+              "expires_at": {"type": ["string", "null"]},
+              "metrics": {"type": ["object", "null"]},
+              "triggers": {"type": "array", "uniqueItems": true, "items": {"enum": ["peak_drawdown", "fast_decline", "morning_low_break"]}},
+              "reasons": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        }
+      }
+    },
     "trading_day": {
       "type": "object",
       "required": ["date", "is_trading_day", "status", "coverage_start", "coverage_end"],

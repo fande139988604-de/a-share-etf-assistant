@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "data_kind": "live",
   "status": "unavailable",
-  "generated_at": "2026-10-09T17:28:00.364250+08:00",
+  "generated_at": "2026-10-09T20:58:49.130171+08:00",
   "timezone": "Asia/Shanghai",
   "target_at": "2026-10-09T14:30:00+08:00",
   "max_age_seconds": 300,
@@ -10,7 +10,7 @@
   "expires_at": null,
   "trading_day": {
     "source": "akshare.tool_trade_date_hist_sina",
-    "checked_at": "2026-10-09T17:27:55.191465+08:00",
+    "checked_at": "2026-10-09T20:58:40.183678+08:00",
     "date": "2026-10-09",
     "is_trading_day": true,
     "coverage_start": "1990-12-19",
@@ -32,15 +32,15 @@
         "response_code": "000510",
         "response_name": "中证A500",
         "identity_origin": "same_minute_response",
-        "response_sha256": "8c5d48fe6a5d5e25ea729a73ab73ace02a1e2f20b649c7fd98f989e681c469e0",
-        "received_at": "2026-10-09T17:27:57.917428+08:00",
+        "response_sha256": "f925b041858a50bd30ba8010136630b4a7b37f5bc7f8d62fd7f1a64d1afe51e3",
+        "received_at": "2026-10-09T20:58:44.410750+08:00",
         "period_minutes": 1,
         "transport": "curl_cffi_chrome",
         "timestamp_kind": "source_minute_bar_time",
         "timestamp_timezone": "Asia/Shanghai"
       },
       "source_timestamp": "2026-10-09T14:35:00+08:00",
-      "age_seconds": 10380.36425,
+      "age_seconds": 23029.130171,
       "expires_at": null,
       "quote": null,
       "reasons": [
@@ -61,15 +61,15 @@
         "response_code": "399673",
         "response_name": "创业板50",
         "identity_origin": "same_minute_response",
-        "response_sha256": "4ad9062d67532a510c9a657ba86aab6f8f910dc5eaa5897fcf7f0161b711684a",
-        "received_at": "2026-10-09T17:28:00.262352+08:00",
+        "response_sha256": "1cd2876bc825eb01e460fffe9910d0cb89ed9d5cb22f2d231a4c6ff2ea036594",
+        "received_at": "2026-10-09T20:58:49.043295+08:00",
         "period_minutes": 1,
         "transport": "curl_cffi_chrome",
         "timestamp_kind": "source_minute_bar_time",
         "timestamp_timezone": "Asia/Shanghai"
       },
       "source_timestamp": "2026-10-09T14:35:00+08:00",
-      "age_seconds": 10380.36425,
+      "age_seconds": 23029.130171,
       "expires_at": null,
       "quote": null,
       "reasons": [
@@ -78,5 +78,65 @@
     }
   ],
   "consumer_rule": "Recheck date, identity, source_timestamp, expires_at and age<=300 seconds at READ time. Collection validity does not imply current freshness.",
-  "signal": null
+  "signal": null,
+  "risk_analysis": {
+    "method": "intraday_close_rules_v1",
+    "status": "unavailable",
+    "scope": "two_indices_intraday_close_observations",
+    "backtested": false,
+    "sell_order": null,
+    "threshold_basis": "configurable_initial_observation_thresholds_not_optimized",
+    "rules": [
+      {
+        "id": "peak_drawdown",
+        "metric": "drawdown_from_sampled_peak_pct",
+        "threshold_pct": 1.5,
+        "comparison": ">=",
+        "description": "较当日已观察到的最高分钟收盘点回撤至少1.5%"
+      },
+      {
+        "id": "fast_decline",
+        "metric": "return_20m_pct",
+        "threshold_pct": -0.8,
+        "comparison": "<=",
+        "description": "最近20分钟收盘点下跌至少0.8%"
+      },
+      {
+        "id": "morning_low_break",
+        "metric": "below_morning_sampled_low_pct",
+        "threshold_pct": 0.3,
+        "comparison": ">=",
+        "description": "跌破上午最低分钟收盘点至少0.3%"
+      }
+    ],
+    "indices": [
+      {
+        "canonical_code": "000510",
+        "canonical_name": "中证A500",
+        "status": "unavailable",
+        "level": "unavailable",
+        "as_of": null,
+        "expires_at": null,
+        "metrics": null,
+        "triggers": [],
+        "reasons": [
+          "fresh_snapshot_required"
+        ]
+      },
+      {
+        "canonical_code": "399673",
+        "canonical_name": "创业板50",
+        "status": "unavailable",
+        "level": "unavailable",
+        "as_of": null,
+        "expires_at": null,
+        "metrics": null,
+        "triggers": [],
+        "reasons": [
+          "fresh_snapshot_required"
+        ]
+      }
+    ],
+    "consumer_rule": "Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe."
+  }
 }
