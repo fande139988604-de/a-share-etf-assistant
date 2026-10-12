@@ -2,16 +2,16 @@
   "schema_version": "1.0",
   "data_kind": "live",
   "status": "unavailable",
-  "generated_at": "2026-10-09T21:22:37.879686+08:00",
+  "generated_at": "2026-10-12T14:53:47.478175+08:00",
   "timezone": "Asia/Shanghai",
-  "target_at": "2026-10-09T14:30:00+08:00",
+  "target_at": "2026-10-12T14:30:00+08:00",
   "max_age_seconds": 300,
   "live_usable_at_collection": false,
   "expires_at": null,
   "trading_day": {
     "source": "akshare.tool_trade_date_hist_sina",
-    "checked_at": "2026-10-09T21:22:29.941972+08:00",
-    "date": "2026-10-09",
+    "checked_at": "2026-10-12T14:53:42.457490+08:00",
+    "date": "2026-10-12",
     "is_trading_day": true,
     "coverage_start": "1990-12-19",
     "coverage_end": "2026-12-31",
@@ -22,7 +22,7 @@
       "canonical_code": "000510",
       "canonical_name": "中证A500",
       "instrument_type": "index",
-      "status": "stale_data",
+      "status": "future_source_timestamp",
       "valid_at_collection": false,
       "identity_verified": true,
       "source": {
@@ -32,26 +32,26 @@
         "response_code": "000510",
         "response_name": "中证A500",
         "identity_origin": "same_minute_response",
-        "response_sha256": "d1e37d4ec8c39c5dd79cc7aee768012fa0666175c88d4d50098b41c9b8bde530",
-        "received_at": "2026-10-09T21:22:34.185315+08:00",
+        "response_sha256": "309c3e8d639a0b86f584760c31f9597b793dc4df1ab1e83aa1822fa2bcd6fdd8",
+        "received_at": "2026-10-12T14:53:45.060542+08:00",
         "period_minutes": 1,
         "transport": "curl_cffi_chrome",
         "timestamp_kind": "source_minute_bar_time",
         "timestamp_timezone": "Asia/Shanghai"
       },
-      "source_timestamp": "2026-10-09T14:35:00+08:00",
-      "age_seconds": 24457.879686,
+      "source_timestamp": null,
+      "age_seconds": null,
       "expires_at": null,
       "quote": null,
       "reasons": [
-        "stale_data"
+        "future_source_timestamp"
       ]
     },
     {
       "canonical_code": "399673",
       "canonical_name": "创业板50",
       "instrument_type": "index",
-      "status": "stale_data",
+      "status": "future_source_timestamp",
       "valid_at_collection": false,
       "identity_verified": true,
       "source": {
@@ -61,19 +61,19 @@
         "response_code": "399673",
         "response_name": "创业板50",
         "identity_origin": "same_minute_response",
-        "response_sha256": "317262972571ae3a95e8f6040727315d427f9360e8f83acc978e490ffc4bffdb",
-        "received_at": "2026-10-09T21:22:37.773334+08:00",
+        "response_sha256": "ea9d2e160dcb1252d4b58e5278ad71b92dbbe67ffe45346a4db97317423443cd",
+        "received_at": "2026-10-12T14:53:47.352367+08:00",
         "period_minutes": 1,
         "transport": "curl_cffi_chrome",
         "timestamp_kind": "source_minute_bar_time",
         "timestamp_timezone": "Asia/Shanghai"
       },
-      "source_timestamp": "2026-10-09T14:35:00+08:00",
-      "age_seconds": 24457.879686,
+      "source_timestamp": null,
+      "age_seconds": null,
       "expires_at": null,
       "quote": null,
       "reasons": [
-        "stale_data"
+        "future_source_timestamp"
       ]
     }
   ],
