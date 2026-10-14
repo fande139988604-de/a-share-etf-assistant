@@ -1,12 +1,12 @@
 {
-  "checked_at": "2026-10-13T14:52:24.988487+08:00",
+  "checked_at": "2026-10-14T15:10:05.028357+08:00",
   "public_https_verified": true,
   "schema_verified": true,
   "chatgpt_action_verified": false,
   "live_usable_at_read": false,
   "reasons": [
-    "future_source_timestamp",
-    "snapshot_not_live_and_valid"
+    "snapshot_not_live_and_valid",
+    "stale_data"
   ],
   "http_status": 200,
   "content_type": "text/plain; charset=utf-8",
