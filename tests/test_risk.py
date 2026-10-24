@@ -10,7 +10,7 @@ CALENDAR = {"dates": ["2026-10-08", "2026-10-09", "2026-10-12"]}
 
 def packets(period=1):
     times = sorted(expected_times(NOW.date(), NOW, period))
-    return {spec.code: {"code": spec.code, "name": spec.name, "secid": f"{spec.markets[0]}.{spec.code}", "identity_origin": "same_minute_response", "period_minutes": period, "rows": [{"time": at.isoformat(), "close": 100.0} for at in times]} for spec in INSTRUMENTS}
+    return {spec.code: {"code": spec.code, "name": spec.name, "secid": f"{spec.markets[0]}.{spec.code}", "identity_origin": "same_minute_response", "period_minutes": period, "received_at": NOW.isoformat(), "response_sha256": "a" * 64, "rows": [{"time": at.isoformat(), "close": 100.0} for at in times]} for spec in INSTRUMENTS}
 
 
 def test_complete_flat_day_has_no_trigger_but_no_sell_instruction():

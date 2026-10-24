@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from math import isfinite
 import unicodedata
+import re
 from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo("Asia/Shanghai")
@@ -26,6 +27,16 @@ def timestamp(value: str | datetime) -> datetime:
 
 def normalized_name(value: str) -> str:
     return "".join(unicodedata.normalize("NFKC", str(value)).upper().split())
+
+
+def published_timestamp(value: str) -> datetime:
+    """Published timestamps must specify an offset; raw vendor bars may be local."""
+    if not isinstance(value, str):
+        raise ValueError("published_timestamp_invalid")
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        raise ValueError("published_timestamp_offset_missing")
+    return parsed.astimezone(TZ)
 
 
 @dataclass(frozen=True)
@@ -121,7 +132,7 @@ def validate_quote(spec: Instrument, packet: dict, now: datetime, trade_day: boo
     if not identity_matches(spec, packet):
         return reject("identity_mismatch_or_missing")
     result["identity_verified"] = True
-    if packet.get("period_minutes") not in (1, 5):
+    if type(packet.get("period_minutes")) is not int or packet["period_minutes"] not in (1, 5):
         return reject("unsupported_bar_period")
     if now < target:
         return reject("before_target_window")
@@ -145,13 +156,14 @@ def validate_quote(spec: Instrument, packet: dict, now: datetime, trade_day: boo
     source_time, row = max(eligible, key=lambda pair: pair[0])
     if source_time.second or source_time.microsecond or source_time.minute % packet["period_minutes"]:
         return reject("invalid_bar_alignment")
-    if packet.get("received_at"):
-        try:
-            received = timestamp(packet["received_at"])
-            if received > now or source_time > received:
-                return reject("source_receipt_time_invalid")
-        except (ValueError, TypeError, OverflowError):
+    try:
+        received = timestamp(packet["received_at"])
+        if received > now or source_time > received:
             return reject("source_receipt_time_invalid")
+    except (KeyError, ValueError, TypeError, OverflowError):
+        return reject("source_receipt_time_invalid")
+    if not re.fullmatch(r"[0-9a-f]{64}", str(packet.get("response_sha256", ""))):
+        return reject("source_response_hash_missing_or_invalid")
     age = (now - source_time).total_seconds()
     result.update(source_timestamp=source_time.isoformat(), age_seconds=age)
     if source_time < target - timedelta(seconds=MAX_AGE):
@@ -229,15 +241,17 @@ def assess_public_snapshot(document: dict, now: datetime) -> dict:
     try:
         if document.get("max_age_seconds") != MAX_AGE or document.get("timezone") != "Asia/Shanghai" or document.get("live_usable_at_collection") is not True:
             reasons.append("invalid_snapshot_contract")
-        generated = timestamp(document["generated_at"])
-        target = timestamp(document["target_at"])
+        generated = published_timestamp(document["generated_at"])
+        target = published_timestamp(document["target_at"])
         if generated > now or generated.date() != now.date():
             reasons.append("generated_date_or_time_invalid")
         if target != datetime.combine(now.date(), TARGET, TZ):
             reasons.append("target_invalid")
         if not target <= now <= target + timedelta(seconds=MAX_AGE):
             reasons.append("outside_read_window")
-        if timestamp(document["expires_at"]) < now:
+        if not target <= generated <= target + timedelta(seconds=MAX_AGE):
+            reasons.append("generation_outside_target_window")
+        if published_timestamp(document["expires_at"]) < now:
             reasons.append("snapshot_expired")
         trade = document["trading_day"]
         if trade["is_trading_day"] is not True or trade["status"] != "verified" or trade["date"] != now.date().isoformat():
@@ -250,18 +264,28 @@ def assess_public_snapshot(document: dict, now: datetime) -> dict:
             quote = by_code[spec.code]
             source = quote["source"]
             packet = {"code": source["response_code"], "name": source["response_name"], "secid": source["secid"], "identity_origin": source["identity_origin"]}
-            if not identity_matches(spec, packet) or quote["instrument_type"] != "index":
+            if not identity_matches(spec, packet) or quote["instrument_type"] != "index" or quote["canonical_name"] != spec.name or quote["identity_verified"] is not True:
                 reasons.append(f"identity_invalid:{spec.code}")
-            ts = timestamp(quote["source_timestamp"])
+            if source["provider"] != "eastmoney" or source["interface"] != "akshare.index_zh_a_hist_min_em" or source["timestamp_kind"] != "source_minute_bar_time" or source["timestamp_timezone"] != "Asia/Shanghai":
+                reasons.append(f"source_metadata_invalid:{spec.code}")
+            if not re.fullmatch(r"[0-9a-f]{64}", str(source["response_sha256"])):
+                reasons.append(f"source_response_hash_invalid:{spec.code}")
+            ts = published_timestamp(quote["source_timestamp"])
+            received = published_timestamp(source["received_at"])
+            if not ts <= received <= generated:
+                reasons.append(f"source_receipt_time_invalid:{spec.code}")
             period = source["period_minutes"]
-            if period not in (1, 5) or ts.second or ts.microsecond or ts.minute % period:
+            if type(period) is not int or period not in (1, 5) or ts.second or ts.microsecond or ts.minute % period:
                 reasons.append(f"invalid_bar_alignment:{spec.code}")
             age = (now - ts).total_seconds()
+            collection_age = quote["age_seconds"]
+            if isinstance(collection_age, bool) or not isinstance(collection_age, (int, float)) or not isfinite(collection_age) or collection_age != (generated - ts).total_seconds() or not 0 <= collection_age <= MAX_AGE:
+                reasons.append(f"invalid_collection_age:{spec.code}")
             if not 0 <= age <= MAX_AGE or ts.date() != now.date() or abs((ts - target).total_seconds()) > MAX_AGE:
                 reasons.append(f"stale_or_invalid_timestamp:{spec.code}")
             if quote["status"] != "ok" or quote["valid_at_collection"] is not True:
                 reasons.append(f"collection_invalid:{spec.code}")
-            expiry = timestamp(quote["expires_at"])
+            expiry = published_timestamp(quote["expires_at"])
             bound = min(ts + timedelta(seconds=MAX_AGE), target + timedelta(seconds=MAX_AGE))
             if expiry != bound or expiry < now or timestamp(document["expires_at"]) > expiry or ts > generated:
                 reasons.append(f"invalid_expiry_or_generation:{spec.code}")

@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0",
+  "verified_at": "2026-10-24T13:35:31+08:00",
+  "verification_note": "Official public page excerpts were checked with the web retrieval tool. Local HTTP probes failed. Hashes identify the stored verified excerpt, not original HTTP response bytes. Official annual release plans remain subject to revision.",
+  "events": [
+    {
+      "event_id": "nbs-2026-10-industrial-profits",
+      "title": "国家统计局工业经济效益月度报告（官方计划）",
+      "category": "macro_policy",
+      "date_certainty": "confirmed",
+      "date": "2026-10-27T09:30:00+08:00",
+      "published_at": "2025-12-25T00:00:00+08:00",
+      "published_at_precision": "date_only",
+      "source_excerpt": "工业经济效益月度报告；10月27日9:30；发布日期为初步计划。",
+      "observation": "subject_to_revision：核验正式发布内容与行业盈利方向，再观察两个指数的市场反应；日程确认不代表利好或利空已知。",
+      "thesis_link": "000510:bottoming;399673:bottoming",
+      "source": {
+        "source_id": "nbs-release-calendar-2026",
+        "url": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+        "received_at": "2026-10-24T13:35:31+08:00",
+        "methodology": "verified_public_page_excerpt_sha256",
+        "status": "verified",
+        "reliability": "official_statistical_agency",
+        "response_sha256": "7b91f341b74b43aa824e0628e1503e7cd132d48fbd70b100fd3bad6cc7a673f6",
+        "excerpt_sha256": "7b91f341b74b43aa824e0628e1503e7cd132d48fbd70b100fd3bad6cc7a673f6"
+      },
+      "verification": "source_verified"
+    },
+    {
+      "event_id": "nbs-2026-11-cpi-ppi",
+      "title": "国家统计局CPI与PPI月度报告（官方计划）",
+      "category": "macro_policy",
+      "date_certainty": "confirmed",
+      "date": "2026-11-09T09:30:00+08:00",
+      "published_at": "2025-12-25T00:00:00+08:00",
+      "published_at_precision": "date_only",
+      "source_excerpt": "居民消费价格指数、工业生产者价格指数月度报告；11月9日9:30。",
+      "observation": "subject_to_revision：查看需求、出厂价格与利润改善是否形成一致证据。发布前不预填数值、方向或超预期幅度。",
+      "thesis_link": "000510:bottoming;399673:bottoming",
+      "source": {
+        "source_id": "nbs-release-calendar-2026",
+        "url": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+        "received_at": "2026-10-24T13:35:31+08:00",
+        "methodology": "verified_public_page_excerpt_sha256",
+        "status": "verified",
+        "reliability": "official_statistical_agency",
+        "response_sha256": "57b0eb6a668ff143fb3be363eeb6241a77187f8c71184c10f620e963622ef672",
+        "excerpt_sha256": "57b0eb6a668ff143fb3be363eeb6241a77187f8c71184c10f620e963622ef672"
+      },
+      "verification": "source_verified"
+    },
+    {
+      "event_id": "nbs-2026-11-monthly-activity",
+      "title": "国家统计局工业、投资与消费月度数据（官方计划）",
+      "category": "macro_policy",
+      "date_certainty": "confirmed",
+      "date": "2026-11-16T10:00:00+08:00",
+      "published_at": "2025-12-25T00:00:00+08:00",
+      "published_at_precision": "date_only",
+      "source_excerpt": "工业生产、固定资产投资、社会消费品零售总额月度报告；11月16日10:00。",
+      "observation": "subject_to_revision：核验实际数据及统计口径，观察盈利修复与需求扩散是否支持筑底假设。",
+      "thesis_link": "000510:bottoming;399673:bottoming",
+      "source": {
+        "source_id": "nbs-release-calendar-2026",
+        "url": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+        "received_at": "2026-10-24T13:35:31+08:00",
+        "methodology": "verified_public_page_excerpt_sha256",
+        "status": "verified",
+        "reliability": "official_statistical_agency",
+        "response_sha256": "61cbce1db47431655a4be647a48b03bd2c46cdb0aff0b867bc28ffdb97cefbc5",
+        "excerpt_sha256": "61cbce1db47431655a4be647a48b03bd2c46cdb0aff0b867bc28ffdb97cefbc5"
+      },
+      "verification": "source_verified"
+    },
+    {
+      "event_id": "chinext50-2026-yearend-rebalance-monitor",
+      "title": "创业板50年末定期调样观察窗口（推测）",
+      "category": "index_etf_rebalance",
+      "date_certainty": "estimated_window",
+      "window": {
+        "start": "2026-12-01",
+        "end": "2026-12-31"
+      },
+      "published_at": "2026-05-29T00:00:00+08:00",
+      "published_at_precision": "date_only",
+      "source_excerpt": "深交所2026年5月29日公告确认当年6月15日定期调样。",
+      "observation": "此窗口依据现行编制方案的半年调样规则推测，尚未核验2026年12月专门公告。5月公告仅为历史事实。待核验最新公告的实际实施日、样本与权重后更新；不把窗口当作确定事件日。现行方案规定6月和12月第二个星期五的下一交易日实施，与2014年发布公告中的旧季度规则不同。",
+      "thesis_link": "399673:liquidity_and_rebalance_distortion",
+      "source": {
+        "source_id": "szse-chinext50-rebalance-20260529",
+        "url": "https://www.szse.cn/disclosure/notice/t20260529_620819.html",
+        "received_at": "2026-10-24T13:35:31+08:00",
+        "methodology": "verified_public_page_excerpt_sha256",
+        "status": "verified",
+        "reliability": "official_exchange",
+        "response_sha256": "1d4e7b4c33576d2550f95fb47928c4c1e438394494513daae8444c519e5dac8b",
+        "excerpt_sha256": "1d4e7b4c33576d2550f95fb47928c4c1e438394494513daae8444c519e5dac8b"
+      },
+      "related_sources": [
+        {
+          "source_id": "cni-399673-current-methodology",
+          "url": "https://www.cnindex.com.cn/docs/gz_399673.pdf",
+          "verification": "source_verified",
+          "published_at": null,
+          "publication_note": "The current PDF has no verified publication date; no date has been inferred from crawl metadata.",
+          "observation": "Page 2, section 6 gives June/December regular adjustments; the future window is an inference, not a new notice."
+        }
+      ],
+      "verification": "source_verified"
+    },
+    {
+      "event_id": "a500-next-index-etf-notice-monitor",
+      "title": "中证A500与跟踪ETF下次调样公告跟踪（日期待确认）",
+      "category": "index_etf_rebalance",
+      "date_certainty": "unscheduled",
+      "published_at": "2026-05-29T00:00:00+08:00",
+      "published_at_precision": "date_only",
+      "source_excerpt": "华夏中证A500ETF招募说明书更新公告日期为2026年5月29日，标的代码000510。",
+      "observation": "已核验资料确认标的身份；未核验下一次调样专门公告及各ETF跟踪执行时间。持续检查指数公司及基金公告，获得明确日期后才转为已确认；不以基金招募书发布日期冒充未来调样日。",
+      "thesis_link": "000510:liquidity_and_rebalance_distortion",
+      "source": {
+        "source_id": "sse-huaxia-a500-prospectus-20260529",
+        "url": "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2026-05-29/512050_20260529_0VSI.pdf",
+        "received_at": "2026-10-24T13:35:31+08:00",
+        "methodology": "verified_public_page_excerpt_sha256",
+        "status": "verified",
+        "reliability": "issuer_filing_on_official_exchange",
+        "response_sha256": "1a10a222faa384deafcb31e6837520aa46dfaeafe0b401c53519db8596f5fa2b",
+        "excerpt_sha256": "1a10a222faa384deafcb31e6837520aa46dfaeafe0b401c53519db8596f5fa2b"
+      },
+      "verification": "source_verified"
+    }
+  ]
+}

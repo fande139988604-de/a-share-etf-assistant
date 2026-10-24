@@ -14,6 +14,10 @@ on:
       - 'scripts/render_snapshot.py'
       - 'scripts/make_openapi.py'
       - 'scripts/check_delivery.py'
+      - 'scripts/collect_market_evidence.py'
+      - 'scripts/build_market_evidence.py'
+      - 'scripts/render_market_evidence.py'
+      - 'config/catalysts.json'
       - 'schemas/**'
       - 'requirements.lock.txt'
       - 'pyproject.toml'
@@ -45,6 +49,12 @@ jobs:
       - name: Record run start
         id: clock
         run: echo "started_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+      - name: Collect public market evidence before capture window
+        continue-on-error: true
+        run: python scripts/collect_market_evidence.py --output reports/market-input.json
+      - name: Append evidence ledger and render trend observations
+        id: research
+        run: python scripts/build_market_evidence.py --input reports/market-input.json
       - name: Collect with time reserved for publishing
         id: capture
         continue-on-error: true
@@ -68,8 +78,12 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -f public/latest.json public/archive/ public/openapi.json public/snapshot.html
+          git add -f public/market-evidence.json public/market-evidence.html public/research/
           if ! git diff --cached --quiet; then
             git commit -m "Publish validated index snapshot"
+            # The main branch may advance while this job waits for 14:30.
+            # Rebase only our generated-publication commit; conflicts fail closed.
+            git pull --rebase origin ${{ github.event.repository.default_branch }}
             git push origin HEAD:${{ github.event.repository.default_branch }}
           fi
       - name: Verify anonymous public HTTPS read

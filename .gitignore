@@ -11,3 +11,9 @@ public/latest.json
 public/archive/
 public/verification.json
 public/openapi.json
+public/market-evidence.json
+public/market-evidence.html
+public/research/
+reports/market-input*.json
+reports/tmp*/
+reports/pytest*/
