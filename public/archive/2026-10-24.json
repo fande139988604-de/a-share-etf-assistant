@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "data_kind": "live",
   "status": "market_closed",
-  "generated_at": "2026-10-24T13:17:31.697175+08:00",
+  "generated_at": "2026-10-24T18:45:16.806998+08:00",
   "timezone": "Asia/Shanghai",
   "target_at": "2026-10-24T14:30:00+08:00",
   "max_age_seconds": 300,
@@ -10,7 +10,7 @@
   "expires_at": null,
   "trading_day": {
     "source": "akshare.tool_trade_date_hist_sina",
-    "checked_at": "2026-10-24T13:17:31.614834+08:00",
+    "checked_at": "2026-10-24T18:45:16.708017+08:00",
     "date": "2026-10-24",
     "is_trading_day": false,
     "coverage_start": "1990-12-19",
@@ -140,9 +140,9 @@
     "consumer_rule": "Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe."
   },
   "collection": {
-    "started_at": "2026-10-24T13:17:30.526458+08:00",
+    "started_at": "2026-10-24T18:45:15.902996+08:00",
     "capture_deadline": "2026-10-24T14:32:00+08:00",
     "attempt_count": 1,
-    "schedule_late": false
+    "schedule_late": true
   }
 }

@@ -1,0 +1,502 @@
+{
+  "schema_version": "market_evidence.v1",
+  "generated_at": "2026-10-24T18:45:15.004400+08:00",
+  "timezone": "Asia/Shanghai",
+  "scope": [
+    "000510",
+    "399673"
+  ],
+  "purpose": "市场证据与趋势观察",
+  "formal_risk_source": "latest.json_only_after_complete_read_time_validation",
+  "formal_risk_substitute": false,
+  "personal_data_collected": false,
+  "previous_trading_day": "2026-10-23",
+  "indices": [
+    {
+      "code": "000510",
+      "name": "中证A500",
+      "status": "available",
+      "metrics": {
+        "date": "2026-10-23",
+        "source_timestamp": "2026-10-23T15:00:00+08:00",
+        "close": 5012.44,
+        "high": 5020.3,
+        "low": 4802.76,
+        "volume": 302042182.0,
+        "amount": 730458291247.1,
+        "volume_unit": "provider_reported_volume",
+        "amount_unit": "CNY",
+        "intraday_range_pct": 4.529478882975613,
+        "return_1d_pct": 2.058709148031168,
+        "volume_vs_previous_ratio": 1.3178723553941145,
+        "return_5_sessions_pct": -1.0138671111304287,
+        "prior_close": 4911.33,
+        "prior_low": 4896.89,
+        "prior_high": 5014.11
+      },
+      "supporting_evidence": [
+        {
+          "fact": "completed_session_close_return",
+          "value_pct": 2.058709148031168,
+          "date": "2026-10-23",
+          "source_id": "eastmoney.daily.000510.2b4e9759a777ce6ae611",
+          "interpretation": "price_observation_not_proof_of_bottom"
+        }
+      ],
+      "opposing_evidence": [
+        {
+          "fact": "low_holds_prior_session_low",
+          "value": false,
+          "date": "2026-10-23",
+          "source_id": "eastmoney.daily.000510.2b4e9759a777ce6ae611"
+        }
+      ],
+      "confidence": "limited",
+      "thesis_status": "watch_evidence_incomplete",
+      "falsifier": "后续收盘再破前低或低点持续下移，且成长/广度未改善",
+      "next_proof": "下个完成交易日的低点、收盘、量能，以及同口径广度和前一交易日ETF净申购",
+      "source": {
+        "source_id": "eastmoney.daily.000510.2b4e9759a777ce6ae611",
+        "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000510&klt=101&fqt=0&beg=20260407&end=20261024&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
+        "provider": "eastmoney",
+        "received_at": "2026-10-24T18:45:14.324042+08:00",
+        "source_timestamp": "2026-10-23T15:00:00+08:00",
+        "response_sha256": "2b4e9759a777ce6ae611168a25f9179b4013709c6773103a04fc8147353f5ede",
+        "http_status": 200,
+        "transport": "requests",
+        "identity_verified": true,
+        "source_code": "000510",
+        "source_name": "中证A500",
+        "identity_origin": "same_daily_response",
+        "secid": "1.000510",
+        "status": "ok",
+        "timestamp_timezone": "Asia/Shanghai",
+        "timestamp_kind": "completed_daily_bar_exchange_close",
+        "volume_unit": "provider_reported_volume",
+        "amount_unit": "CNY",
+        "decision_cutoff": "2026-10-24T18:45:13.431818+08:00",
+        "limitations": [
+          "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
+          "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
+        ]
+      },
+      "history_records": 134,
+      "latest_session_is_previous_trading_day": true,
+      "scenarios": {
+        "method": "conditional_observation_no_probability_or_price_target",
+        "observed_completed_session": "2026-10-23",
+        "checks": {
+          "close_holds_prior_close": true,
+          "low_holds_prior_low": false,
+          "close_breaks_prior_low": false,
+          "growth_not_underperforming": true
+        },
+        "cases": [
+          {
+            "id": "stabilization",
+            "name": "企稳",
+            "conditions": [
+              "收盘守住前一交易日收盘，日内低点不再下移",
+              "成长相对宽基不再走弱",
+              "后续交易日广度改善并有可核实的ETF净申购支持"
+            ],
+            "invalidation": "再度收破前一交易日低点，或反弹时成长与广度持续背离",
+            "next_observation": "核对下个交易日收盘、同口径广度和上一交易日ETF份额变化",
+            "assessment": "conditional_not_confirmed"
+          },
+          {
+            "id": "range",
+            "name": "震荡",
+            "conditions": [
+              "前一交易日高低区间内反复，量能和广度信号不一致"
+            ],
+            "invalidation": "连续低点下移或有广度支持的向上突破",
+            "next_observation": "比较实际高低点、成交量与同口径涨跌家数",
+            "assessment": "conditional_not_confirmed"
+          },
+          {
+            "id": "weakening",
+            "name": "继续走弱",
+            "conditions": [
+              "收盘跌破前一交易日低点，或低点继续下移",
+              "成长相对走弱，且下跌成交量增加或广度恶化"
+            ],
+            "invalidation": "收复前一交易日收盘且低点、广度同步改善",
+            "next_observation": "核对收盘与前低的关系、跌日量能和成长相对收益",
+            "assessment": "conditional_not_confirmed"
+          }
+        ],
+        "sensitivity": [
+          {
+            "driver": "close_vs_prior_close",
+            "observed": 5012.44,
+            "reference": 4911.33,
+            "reference_origin": "verified_completed_daily_bar",
+            "effect": "能否守住前收改变企稳证据方向"
+          },
+          {
+            "driver": "growth_minus_a500_return_pp",
+            "observed": 2.276560917032322,
+            "reference": 0,
+            "reference_origin": "equality_of_same_session_returns",
+            "effect": "正负号改变成长相对强弱判断；A500只是宽基代理，不是纯大盘指数"
+          }
+        ]
+      }
+    },
+    {
+      "code": "399673",
+      "name": "创业板50",
+      "status": "available",
+      "metrics": {
+        "date": "2026-10-23",
+        "source_timestamp": "2026-10-23T15:00:00+08:00",
+        "close": 2727.71,
+        "high": 2739.1,
+        "low": 2527.53,
+        "volume": 26269728.0,
+        "amount": 185314210168.61,
+        "volume_unit": "provider_reported_volume",
+        "amount_unit": "CNY",
+        "intraday_range_pct": 8.370622702796782,
+        "return_1d_pct": 4.33527006506349,
+        "volume_vs_previous_ratio": 1.5242141947528427,
+        "return_5_sessions_pct": -4.596169450740084,
+        "prior_close": 2614.37,
+        "prior_low": 2614.37,
+        "prior_high": 2738.56
+      },
+      "supporting_evidence": [
+        {
+          "fact": "completed_session_close_return",
+          "value_pct": 4.33527006506349,
+          "date": "2026-10-23",
+          "source_id": "eastmoney.daily.399673.e469185db11b5f3a5123",
+          "interpretation": "price_observation_not_proof_of_bottom"
+        }
+      ],
+      "opposing_evidence": [
+        {
+          "fact": "low_holds_prior_session_low",
+          "value": false,
+          "date": "2026-10-23",
+          "source_id": "eastmoney.daily.399673.e469185db11b5f3a5123"
+        }
+      ],
+      "confidence": "limited",
+      "thesis_status": "watch_evidence_incomplete",
+      "falsifier": "后续收盘再破前低或低点持续下移，且成长/广度未改善",
+      "next_proof": "下个完成交易日的低点、收盘、量能，以及同口径广度和前一交易日ETF净申购",
+      "source": {
+        "source_id": "eastmoney.daily.399673.e469185db11b5f3a5123",
+        "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399673&klt=101&fqt=0&beg=20260407&end=20261024&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
+        "provider": "eastmoney",
+        "received_at": "2026-10-24T18:45:14.775760+08:00",
+        "source_timestamp": "2026-10-23T15:00:00+08:00",
+        "response_sha256": "e469185db11b5f3a5123964553a7510140204d6942cb9305866c756734f576bc",
+        "http_status": 200,
+        "transport": "requests",
+        "identity_verified": true,
+        "source_code": "399673",
+        "source_name": "创业板50",
+        "identity_origin": "same_daily_response",
+        "secid": "0.399673",
+        "status": "ok",
+        "timestamp_timezone": "Asia/Shanghai",
+        "timestamp_kind": "completed_daily_bar_exchange_close",
+        "volume_unit": "provider_reported_volume",
+        "amount_unit": "CNY",
+        "decision_cutoff": "2026-10-24T18:45:13.431818+08:00",
+        "limitations": [
+          "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
+          "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
+        ]
+      },
+      "history_records": 134,
+      "latest_session_is_previous_trading_day": true,
+      "scenarios": {
+        "method": "conditional_observation_no_probability_or_price_target",
+        "observed_completed_session": "2026-10-23",
+        "checks": {
+          "close_holds_prior_close": true,
+          "low_holds_prior_low": false,
+          "close_breaks_prior_low": false,
+          "growth_not_underperforming": true
+        },
+        "cases": [
+          {
+            "id": "stabilization",
+            "name": "企稳",
+            "conditions": [
+              "收盘守住前一交易日收盘，日内低点不再下移",
+              "成长相对宽基不再走弱",
+              "后续交易日广度改善并有可核实的ETF净申购支持"
+            ],
+            "invalidation": "再度收破前一交易日低点，或反弹时成长与广度持续背离",
+            "next_observation": "核对下个交易日收盘、同口径广度和上一交易日ETF份额变化",
+            "assessment": "conditional_not_confirmed"
+          },
+          {
+            "id": "range",
+            "name": "震荡",
+            "conditions": [
+              "前一交易日高低区间内反复，量能和广度信号不一致"
+            ],
+            "invalidation": "连续低点下移或有广度支持的向上突破",
+            "next_observation": "比较实际高低点、成交量与同口径涨跌家数",
+            "assessment": "conditional_not_confirmed"
+          },
+          {
+            "id": "weakening",
+            "name": "继续走弱",
+            "conditions": [
+              "收盘跌破前一交易日低点，或低点继续下移",
+              "成长相对走弱，且下跌成交量增加或广度恶化"
+            ],
+            "invalidation": "收复前一交易日收盘且低点、广度同步改善",
+            "next_observation": "核对收盘与前低的关系、跌日量能和成长相对收益",
+            "assessment": "conditional_not_confirmed"
+          }
+        ],
+        "sensitivity": [
+          {
+            "driver": "close_vs_prior_close",
+            "observed": 2727.71,
+            "reference": 2614.37,
+            "reference_origin": "verified_completed_daily_bar",
+            "effect": "能否守住前收改变企稳证据方向"
+          },
+          {
+            "driver": "growth_minus_a500_return_pp",
+            "observed": 2.276560917032322,
+            "reference": 0,
+            "reference_origin": "equality_of_same_session_returns",
+            "effect": "正负号改变成长相对强弱判断；A500只是宽基代理，不是纯大盘指数"
+          }
+        ]
+      }
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "eastmoney.daily.000510.2b4e9759a777ce6ae611",
+      "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000510&klt=101&fqt=0&beg=20260407&end=20261024&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
+      "provider": "eastmoney",
+      "received_at": "2026-10-24T18:45:14.324042+08:00",
+      "source_timestamp": "2026-10-23T15:00:00+08:00",
+      "response_sha256": "2b4e9759a777ce6ae611168a25f9179b4013709c6773103a04fc8147353f5ede",
+      "http_status": 200,
+      "transport": "requests",
+      "identity_verified": true,
+      "source_code": "000510",
+      "source_name": "中证A500",
+      "identity_origin": "same_daily_response",
+      "secid": "1.000510",
+      "status": "ok",
+      "timestamp_timezone": "Asia/Shanghai",
+      "timestamp_kind": "completed_daily_bar_exchange_close",
+      "volume_unit": "provider_reported_volume",
+      "amount_unit": "CNY",
+      "decision_cutoff": "2026-10-24T18:45:13.431818+08:00",
+      "limitations": [
+        "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
+        "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
+      ]
+    },
+    {
+      "source_id": "eastmoney.daily.399673.e469185db11b5f3a5123",
+      "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399673&klt=101&fqt=0&beg=20260407&end=20261024&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
+      "provider": "eastmoney",
+      "received_at": "2026-10-24T18:45:14.775760+08:00",
+      "source_timestamp": "2026-10-23T15:00:00+08:00",
+      "response_sha256": "e469185db11b5f3a5123964553a7510140204d6942cb9305866c756734f576bc",
+      "http_status": 200,
+      "transport": "requests",
+      "identity_verified": true,
+      "source_code": "399673",
+      "source_name": "创业板50",
+      "identity_origin": "same_daily_response",
+      "secid": "0.399673",
+      "status": "ok",
+      "timestamp_timezone": "Asia/Shanghai",
+      "timestamp_kind": "completed_daily_bar_exchange_close",
+      "volume_unit": "provider_reported_volume",
+      "amount_unit": "CNY",
+      "decision_cutoff": "2026-10-24T18:45:13.431818+08:00",
+      "limitations": [
+        "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
+        "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
+      ]
+    }
+  ],
+  "gaps": [
+    "breadth:No validated full-market breadth source with defined universe was available.",
+    "etf_flows:No verified previous-trading-day broad ETF net-subscription source; turnover and capital-flow estimates are not subscriptions."
+  ],
+  "methodology": {
+    "thesis": "append_only_confirm_and_disconfirm_evidence_with_falsifiers",
+    "confidence": "qualitative_evidence_coverage_not_forecast_probability",
+    "relative_performance": "399673 daily return minus 000510 daily return, same session; A500 broad-market proxy, not pure large-cap",
+    "close_availability": "Completed bars only; source time is 15:00 Asia/Shanghai, received_at is retrieval time; first_seen_at does not prove historical availability",
+    "causality": "ETF flows cannot identify buyers or prove a market bottom"
+  },
+  "relative_performance": {
+    "status": "available",
+    "growth_minus_broad_market_pp": 2.276560917032322,
+    "growth_code": "399673",
+    "broad_market_proxy_code": "000510",
+    "date": "2026-10-23"
+  },
+  "breadth": {
+    "status": "unavailable",
+    "reason": "No validated full-market breadth source with defined universe was available.",
+    "observations": []
+  },
+  "etf_flows": {
+    "status": "unavailable",
+    "reason": "No verified previous-trading-day broad ETF net-subscription source; turnover and capital-flow estimates are not subscriptions.",
+    "observations": []
+  },
+  "catalysts": {
+    "events": [
+      {
+        "event_id": "nbs-2026-10-industrial-profits",
+        "title": "国家统计局工业经济效益月度报告（官方计划）",
+        "category": "macro_policy",
+        "date_certainty": "confirmed",
+        "published_at": "2025-12-25T00:00:00+08:00",
+        "source_excerpt": "工业经济效益月度报告；10月27日9:30；发布日期为初步计划。",
+        "observation": "subject_to_revision：核验正式发布内容与行业盈利方向，再观察两个指数的市场反应；日程确认不代表利好或利空已知。",
+        "thesis_link": "000510:bottoming;399673:bottoming",
+        "source": {
+          "source_id": "nbs-release-calendar-2026",
+          "url": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+          "received_at": "2026-10-24T13:35:31+08:00",
+          "response_sha256": "7b91f341b74b43aa824e0628e1503e7cd132d48fbd70b100fd3bad6cc7a673f6",
+          "status": "verified",
+          "reliability": "official_statistical_agency",
+          "methodology": "verified_public_page_excerpt_sha256",
+          "excerpt_sha256": "7b91f341b74b43aa824e0628e1503e7cd132d48fbd70b100fd3bad6cc7a673f6"
+        },
+        "published_at_precision": "date_only",
+        "review_age_days": 0,
+        "needs_source_recheck": false,
+        "date": "2026-10-27",
+        "scheduled_at": "2026-10-27T09:30:00+08:00",
+        "window": null
+      },
+      {
+        "event_id": "nbs-2026-11-cpi-ppi",
+        "title": "国家统计局CPI与PPI月度报告（官方计划）",
+        "category": "macro_policy",
+        "date_certainty": "confirmed",
+        "published_at": "2025-12-25T00:00:00+08:00",
+        "source_excerpt": "居民消费价格指数、工业生产者价格指数月度报告；11月9日9:30。",
+        "observation": "subject_to_revision：查看需求、出厂价格与利润改善是否形成一致证据。发布前不预填数值、方向或超预期幅度。",
+        "thesis_link": "000510:bottoming;399673:bottoming",
+        "source": {
+          "source_id": "nbs-release-calendar-2026",
+          "url": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+          "received_at": "2026-10-24T13:35:31+08:00",
+          "response_sha256": "57b0eb6a668ff143fb3be363eeb6241a77187f8c71184c10f620e963622ef672",
+          "status": "verified",
+          "reliability": "official_statistical_agency",
+          "methodology": "verified_public_page_excerpt_sha256",
+          "excerpt_sha256": "57b0eb6a668ff143fb3be363eeb6241a77187f8c71184c10f620e963622ef672"
+        },
+        "published_at_precision": "date_only",
+        "review_age_days": 0,
+        "needs_source_recheck": false,
+        "date": "2026-11-09",
+        "scheduled_at": "2026-11-09T09:30:00+08:00",
+        "window": null
+      },
+      {
+        "event_id": "nbs-2026-11-monthly-activity",
+        "title": "国家统计局工业、投资与消费月度数据（官方计划）",
+        "category": "macro_policy",
+        "date_certainty": "confirmed",
+        "published_at": "2025-12-25T00:00:00+08:00",
+        "source_excerpt": "工业生产、固定资产投资、社会消费品零售总额月度报告；11月16日10:00。",
+        "observation": "subject_to_revision：核验实际数据及统计口径，观察盈利修复与需求扩散是否支持筑底假设。",
+        "thesis_link": "000510:bottoming;399673:bottoming",
+        "source": {
+          "source_id": "nbs-release-calendar-2026",
+          "url": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+          "received_at": "2026-10-24T13:35:31+08:00",
+          "response_sha256": "61cbce1db47431655a4be647a48b03bd2c46cdb0aff0b867bc28ffdb97cefbc5",
+          "status": "verified",
+          "reliability": "official_statistical_agency",
+          "methodology": "verified_public_page_excerpt_sha256",
+          "excerpt_sha256": "61cbce1db47431655a4be647a48b03bd2c46cdb0aff0b867bc28ffdb97cefbc5"
+        },
+        "published_at_precision": "date_only",
+        "review_age_days": 0,
+        "needs_source_recheck": false,
+        "date": "2026-11-16",
+        "scheduled_at": "2026-11-16T10:00:00+08:00",
+        "window": null
+      },
+      {
+        "event_id": "chinext50-2026-yearend-rebalance-monitor",
+        "title": "创业板50年末定期调样观察窗口（推测）",
+        "category": "index_etf_rebalance",
+        "date_certainty": "estimated_window",
+        "published_at": "2026-05-29T00:00:00+08:00",
+        "source_excerpt": "深交所2026年5月29日公告确认当年6月15日定期调样。",
+        "observation": "此窗口依据现行编制方案的半年调样规则推测，尚未核验2026年12月专门公告。5月公告仅为历史事实。待核验最新公告的实际实施日、样本与权重后更新；不把窗口当作确定事件日。现行方案规定6月和12月第二个星期五的下一交易日实施，与2014年发布公告中的旧季度规则不同。",
+        "thesis_link": "399673:liquidity_and_rebalance_distortion",
+        "source": {
+          "source_id": "szse-chinext50-rebalance-20260529",
+          "url": "https://www.szse.cn/disclosure/notice/t20260529_620819.html",
+          "received_at": "2026-10-24T13:35:31+08:00",
+          "response_sha256": "1d4e7b4c33576d2550f95fb47928c4c1e438394494513daae8444c519e5dac8b",
+          "status": "verified",
+          "reliability": "official_exchange",
+          "methodology": "verified_public_page_excerpt_sha256",
+          "excerpt_sha256": "1d4e7b4c33576d2550f95fb47928c4c1e438394494513daae8444c519e5dac8b"
+        },
+        "published_at_precision": "date_only",
+        "review_age_days": 0,
+        "needs_source_recheck": false,
+        "date": null,
+        "scheduled_at": null,
+        "window": {
+          "start": "2026-12-01",
+          "end": "2026-12-31"
+        }
+      },
+      {
+        "event_id": "a500-next-index-etf-notice-monitor",
+        "title": "中证A500与跟踪ETF下次调样公告跟踪（日期待确认）",
+        "category": "index_etf_rebalance",
+        "date_certainty": "unscheduled",
+        "published_at": "2026-05-29T00:00:00+08:00",
+        "source_excerpt": "华夏中证A500ETF招募说明书更新公告日期为2026年5月29日，标的代码000510。",
+        "observation": "已核验资料确认标的身份；未核验下一次调样专门公告及各ETF跟踪执行时间。持续检查指数公司及基金公告，获得明确日期后才转为已确认；不以基金招募书发布日期冒充未来调样日。",
+        "thesis_link": "000510:liquidity_and_rebalance_distortion",
+        "source": {
+          "source_id": "sse-huaxia-a500-prospectus-20260529",
+          "url": "https://www.sse.com.cn/disclosure/fund/announcement/c/new/2026-05-29/512050_20260529_0VSI.pdf",
+          "received_at": "2026-10-24T13:35:31+08:00",
+          "response_sha256": "1a10a222faa384deafcb31e6837520aa46dfaeafe0b401c53519db8596f5fa2b",
+          "status": "verified",
+          "reliability": "issuer_filing_on_official_exchange",
+          "methodology": "verified_public_page_excerpt_sha256",
+          "excerpt_sha256": "1a10a222faa384deafcb31e6837520aa46dfaeafe0b401c53519db8596f5fa2b"
+        },
+        "published_at_precision": "date_only",
+        "review_age_days": 0,
+        "needs_source_recheck": false,
+        "date": null,
+        "scheduled_at": null,
+        "window": null
+      }
+    ],
+    "unverified_categories": [
+      "trading_calendar"
+    ],
+    "rule": "Confirmed dates require a reviewed official source; windows remain windows; no invented policy dates"
+  },
+  "status": "available_with_gaps"
+}

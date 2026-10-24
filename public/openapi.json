@@ -35,7 +35,8 @@
                     "live_usable_at_collection",
                     "expires_at",
                     "trading_day",
-                    "indices"
+                    "indices",
+                    "risk_analysis"
                   ],
                   "properties": {
                     "schema_version": {
@@ -357,7 +358,8 @@
                     "live_usable_at_collection",
                     "expires_at",
                     "trading_day",
-                    "indices"
+                    "indices",
+                    "risk_analysis"
                   ],
                   "properties": {
                     "schema_version": {

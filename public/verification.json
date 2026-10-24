@@ -1,18 +1,6 @@
 {
-  "checked_at": "2026-10-23T15:13:22.335131+08:00",
-  "public_https_verified": true,
-  "schema_verified": true,
-  "chatgpt_action_verified": false,
-  "live_usable_at_read": false,
-  "reasons": [
-    "snapshot_not_live_and_valid",
-    "stale_data"
-  ],
-  "http_status": 200,
-  "content_type": "text/plain; charset=utf-8",
-  "published_snapshot_matches": true,
-  "risk_usable_at_read": false,
-  "risk_reasons": [
-    "fresh_snapshot_required"
-  ]
+  "checked_at": "2026-10-24T18:45:16.962676+08:00",
+  "snapshot_generated_at": "2026-10-24T18:45:16.806998+08:00",
+  "public_https_verified": false,
+  "reason": "publication_not_yet_verified"
 }

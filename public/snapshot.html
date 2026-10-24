@@ -4,12 +4,12 @@
 <style>body{font:16px/1.6 system-ui,sans-serif;max-width:960px;margin:32px auto;padding:0 20px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f6f8;padding:20px;border-radius:8px}</style></head>
 <body><h1>14:30指数行情与风险快照</h1>
 <p>下面是本次发布的完整原始JSON。它是定时快照，读取时必须重新核验来源时间、交易日、指数身份和300秒新鲜度；不能只看采集时的成功状态。</p>
-<p><a href="latest.json">JSON接口</a> · <a href="openapi.json">只读接口说明</a></p>
+<p><a href="latest.json">JSON接口</a> · <a href="openapi.json">只读接口说明</a> · <a href="market-evidence.html">市场证据与趋势观察</a></p>
 <pre id="snapshot-json">{
   &quot;schema_version&quot;: &quot;1.0&quot;,
   &quot;data_kind&quot;: &quot;live&quot;,
   &quot;status&quot;: &quot;market_closed&quot;,
-  &quot;generated_at&quot;: &quot;2026-10-24T13:17:31.697175+08:00&quot;,
+  &quot;generated_at&quot;: &quot;2026-10-24T18:45:16.806998+08:00&quot;,
   &quot;timezone&quot;: &quot;Asia/Shanghai&quot;,
   &quot;target_at&quot;: &quot;2026-10-24T14:30:00+08:00&quot;,
   &quot;max_age_seconds&quot;: 300,
@@ -17,7 +17,7 @@
   &quot;expires_at&quot;: null,
   &quot;trading_day&quot;: {
     &quot;source&quot;: &quot;akshare.tool_trade_date_hist_sina&quot;,
-    &quot;checked_at&quot;: &quot;2026-10-24T13:17:31.614834+08:00&quot;,
+    &quot;checked_at&quot;: &quot;2026-10-24T18:45:16.708017+08:00&quot;,
     &quot;date&quot;: &quot;2026-10-24&quot;,
     &quot;is_trading_day&quot;: false,
     &quot;coverage_start&quot;: &quot;1990-12-19&quot;,
@@ -147,10 +147,10 @@
     &quot;consumer_rule&quot;: &quot;Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe.&quot;
   },
   &quot;collection&quot;: {
-    &quot;started_at&quot;: &quot;2026-10-24T13:17:30.526458+08:00&quot;,
+    &quot;started_at&quot;: &quot;2026-10-24T18:45:15.902996+08:00&quot;,
     &quot;capture_deadline&quot;: &quot;2026-10-24T14:32:00+08:00&quot;,
     &quot;attempt_count&quot;: 1,
-    &quot;schedule_late&quot;: false
+    &quot;schedule_late&quot;: true
   }
 }</pre>
 </body></html>
