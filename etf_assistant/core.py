@@ -117,7 +117,7 @@ def validate_quote(spec: Instrument, packet: dict, now: datetime, trade_day: boo
     if trade_day is False:
         return reject("market_closed")
     if packet.get("error"):
-        return reject("source_unavailable")
+        return reject("collection_deadline_exceeded" if packet["error"] == "collection_deadline_exceeded" else "source_unavailable")
     if not identity_matches(spec, packet):
         return reject("identity_mismatch_or_missing")
     result["identity_verified"] = True
@@ -130,8 +130,10 @@ def validate_quote(spec: Instrument, packet: dict, now: datetime, trade_day: boo
         return reject("no_minute_data")
     try:
         parsed_rows = [(timestamp(row["time"]), row) for row in rows]
-    except (KeyError, TypeError, ValueError):
+    except (KeyError, TypeError, ValueError, AttributeError, OverflowError):
         return reject("timestamp_missing_or_invalid")
+    if any(t > now for t, _ in parsed_rows):
+        return reject("future_source_timestamp")
     today = [(t, row) for t, row in parsed_rows if t.date() == now.date()]
     if not today:
         return reject("wrong_trading_date")
@@ -141,6 +143,15 @@ def validate_quote(spec: Instrument, packet: dict, now: datetime, trade_day: boo
     if not eligible:
         return reject("outside_target_window")
     source_time, row = max(eligible, key=lambda pair: pair[0])
+    if source_time.second or source_time.microsecond or source_time.minute % packet["period_minutes"]:
+        return reject("invalid_bar_alignment")
+    if packet.get("received_at"):
+        try:
+            received = timestamp(packet["received_at"])
+            if received > now or source_time > received:
+                return reject("source_receipt_time_invalid")
+        except (ValueError, TypeError, OverflowError):
+            return reject("source_receipt_time_invalid")
     age = (now - source_time).total_seconds()
     result.update(source_timestamp=source_time.isoformat(), age_seconds=age)
     if source_time < target - timedelta(seconds=MAX_AGE):
@@ -153,9 +164,9 @@ def validate_quote(spec: Instrument, packet: dict, now: datetime, trade_day: boo
         return reject("missed_target_window")
     try:
         close = float(row["close"])
-        if not isfinite(close) or close <= 0:
+        if isinstance(row["close"], bool) or not isfinite(close) or close <= 0:
             return reject("invalid_price")
-    except (KeyError, TypeError, ValueError):
+    except (KeyError, TypeError, ValueError, OverflowError):
         return reject("invalid_price")
     # Reject conflicting duplicate bars instead of silently choosing one.
     same_time = [r for t, r in today if t == source_time]
@@ -216,6 +227,8 @@ def assess_public_snapshot(document: dict, now: datetime) -> dict:
             reasons.extend(str(reason) for reason in quote.get("reasons", []))
         return {"checked_at": now.isoformat(), "live_usable_at_read": False, "reasons": sorted(set(reasons))}
     try:
+        if document.get("max_age_seconds") != MAX_AGE or document.get("timezone") != "Asia/Shanghai" or document.get("live_usable_at_collection") is not True:
+            reasons.append("invalid_snapshot_contract")
         generated = timestamp(document["generated_at"])
         target = timestamp(document["target_at"])
         if generated > now or generated.date() != now.date():
@@ -240,14 +253,21 @@ def assess_public_snapshot(document: dict, now: datetime) -> dict:
             if not identity_matches(spec, packet) or quote["instrument_type"] != "index":
                 reasons.append(f"identity_invalid:{spec.code}")
             ts = timestamp(quote["source_timestamp"])
+            period = source["period_minutes"]
+            if period not in (1, 5) or ts.second or ts.microsecond or ts.minute % period:
+                reasons.append(f"invalid_bar_alignment:{spec.code}")
             age = (now - ts).total_seconds()
             if not 0 <= age <= MAX_AGE or ts.date() != now.date() or abs((ts - target).total_seconds()) > MAX_AGE:
                 reasons.append(f"stale_or_invalid_timestamp:{spec.code}")
             if quote["status"] != "ok" or quote["valid_at_collection"] is not True:
                 reasons.append(f"collection_invalid:{spec.code}")
+            expiry = timestamp(quote["expires_at"])
+            bound = min(ts + timedelta(seconds=MAX_AGE), target + timedelta(seconds=MAX_AGE))
+            if expiry != bound or expiry < now or timestamp(document["expires_at"]) > expiry or ts > generated:
+                reasons.append(f"invalid_expiry_or_generation:{spec.code}")
             close = float(quote["quote"]["close"])
-            if close <= 0 or not isfinite(close):
+            if isinstance(quote["quote"]["close"], bool) or close <= 0 or not isfinite(close):
                 reasons.append(f"invalid_price:{spec.code}")
-    except (KeyError, TypeError, ValueError):
+    except (KeyError, TypeError, ValueError, AttributeError, OverflowError):
         reasons.append("malformed_snapshot")
     return {"checked_at": now.isoformat(), "live_usable_at_read": not reasons, "reasons": sorted(set(reasons))}

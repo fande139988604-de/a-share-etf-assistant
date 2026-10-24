@@ -33,7 +33,7 @@ def test_current_minute_passes_for_both_indices():
     ("2026-10-08 14:30:00", "wrong_trading_date"),
     ("2026-10-09 14:30:01", "future_source_timestamp"),
     ("bad timestamp", "timestamp_missing_or_invalid"),
-    ("2026-10-09 14:24:59", "outside_target_window"),
+    ("2026-10-09 14:24:59", "invalid_bar_alignment"),
 ])
 def test_bad_source_times_fail(at, status):
     result = validate_quote(INSTRUMENTS[0], packet(at=at), NOW, True)

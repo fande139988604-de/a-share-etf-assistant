@@ -152,9 +152,14 @@ def test_workflows_parse_and_daily_clock_is_utc():
     import yaml
     root = Path(__file__).parents[1]
     collector = yaml.load((root / ".github/workflows/collect.yml").read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
-    assert collector["on"]["schedule"][0]["cron"] == "23 6 * * 1-5"
+    assert collector["on"]["schedule"][0]["cron"] == "17 5 * * 1-5"
     assert collector["permissions"] == {"contents": "write"}
-    assert "--wait --retry-window" in collector["jobs"]["collect"]["steps"][5]["run"]
+    assert collector["on"]["push"]["branches"] == ["main"]
+    assert "public/**" not in collector["on"]["push"]["paths"]
+    capture = next(s for s in collector["jobs"]["collect"]["steps"] if s.get("id") == "capture")
+    assert "--wait --retry-window" in capture["run"]
+    assert "--capture-seconds 120" in capture["run"]
+    assert int(collector["jobs"]["collect"]["timeout-minutes"]) >= 90
 
 
 def test_public_transport_success_does_not_imply_live_or_chatgpt_success(monkeypatch, tmp_path):
