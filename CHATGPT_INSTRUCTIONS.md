@@ -1,5 +1,7 @@
 # ChatGPT 读取与手机通知
 
+2026-10-24升级：研究证据接口为 `market-evidence.json`（可读页 `market-evidence.html`），历史追加文件在 `public/research/`。正式风险仍只允许完整验证后的 `latest.json` 原始结果；`etf_assistant.reminder.compose_reminder` 是可执行的读取约束。最新原任务更新文本见 `CLOUD_REMINDER_PROMPT.txt`。该文件变更不等于ChatGPT云端任务保存配置已更新；必须通过原任务管理界面核对，禁止新建替代任务。
+
 云端采集已部署在 GitHub Actions，电脑关机也可运行。GitHub 只是本次采用的免费云端方案，并非手机通知必需的平台。
 
 公开数据：https://fande139988604-de.github.io/a-share-etf-assistant/latest.json

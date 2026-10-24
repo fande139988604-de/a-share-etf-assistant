@@ -112,3 +112,8 @@ requirements.lock.txt固定本次验证环境。离线测试包括时间边界�
 - GitHub定时任务延迟说明：https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule
 - OpenAI定时任务：https://learn.chatgpt.com/docs/automations
 - GPT Actions：https://developers.openai.com/api/docs/actions/introduction
+# 2026-10-24 证据追踪升级
+
+在原有两个指数与原14:33提醒结构上增加“市场证据与趋势观察”、追加历史/假设证据账本、三种条件式情景和官方事件日历。实施、验证方法及未解决数据缺口见 [UPGRADE_20261024.md](UPGRADE_20261024.md)。
+
+正式风险与研究证据分开验证；任何网页/插件分析都不能替代系统缺失的三项风险。研究源在盘中采集前请求，保持300秒新鲜度与14:30—14:35读取窗口。没有新建任务或自动交易功能。

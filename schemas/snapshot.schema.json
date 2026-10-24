@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "A-share index 14:30 snapshot",
   "type": "object",
-  "required": ["schema_version", "data_kind", "status", "generated_at", "target_at", "timezone", "max_age_seconds", "live_usable_at_collection", "expires_at", "trading_day", "indices"],
+  "required": ["schema_version", "data_kind", "status", "generated_at", "target_at", "timezone", "max_age_seconds", "live_usable_at_collection", "expires_at", "trading_day", "indices", "risk_analysis"],
   "properties": {
     "schema_version": {"const": "1.0"},
     "data_kind": {"enum": ["live", "offline_fixture"]},

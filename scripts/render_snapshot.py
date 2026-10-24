@@ -13,7 +13,7 @@ def render_snapshot(document):
 <style>body{font:16px/1.6 system-ui,sans-serif;max-width:960px;margin:32px auto;padding:0 20px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f6f8;padding:20px;border-radius:8px}</style></head>
 <body><h1>14:30指数行情与风险快照</h1>
 <p>下面是本次发布的完整原始JSON。它是定时快照，读取时必须重新核验来源时间、交易日、指数身份和300秒新鲜度；不能只看采集时的成功状态。</p>
-<p><a href="latest.json">JSON接口</a> · <a href="openapi.json">只读接口说明</a></p>
+<p><a href="latest.json">JSON接口</a> · <a href="openapi.json">只读接口说明</a> · <a href="market-evidence.html">市场证据与趋势观察</a></p>
 <pre id="snapshot-json">''' + escape(body) + '''</pre>
 </body></html>
 '''

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime, time, timedelta
+from decimal import Decimal
 from math import isfinite, isclose
 
 from .core import INSTRUMENTS, TZ, assess_public_snapshot, identity_matches, timestamp
@@ -12,6 +13,19 @@ RULES = (
     {"id": "fast_decline", "metric": "return_20m_pct", "threshold_pct": -0.8, "comparison": "<=", "description": "最近20分钟收盘点下跌至少0.8%"},
     {"id": "morning_low_break", "metric": "below_morning_sampled_low_pct", "threshold_pct": 0.3, "comparison": ">=", "description": "跌破上午最低分钟收盘点至少0.3%"},
 )
+
+
+def triggered_rules(current, peak, morning, reference):
+    """Compare decimal prices by cross-products so exact boundaries trigger."""
+    current, peak, morning, reference = (Decimal(str(value)) for value in (current, peak, morning, reference))
+    # Ratios remain floats in display metrics; neither rounding nor an epsilon
+    # may widen or narrow the configured decision thresholds.
+    comparisons = (
+        (peak - current) * 100 >= Decimal(str(RULES[0]["threshold_pct"])) * peak,
+        (current - reference) * 100 <= Decimal(str(RULES[1]["threshold_pct"])) * reference,
+        (morning - current) * 100 >= Decimal(str(RULES[2]["threshold_pct"])) * morning,
+    )
+    return [rule["id"] for rule, triggered in zip(RULES, comparisons) if triggered]
 
 
 def unavailable(spec, reason):
@@ -80,8 +94,7 @@ def analyze_index(spec, packet, quote):
         }
         if not all(isfinite(value) for value in metrics.values() if isinstance(value, (int, float))):
             raise ValueError("risk_metrics_nonfinite")
-        # Do not round before comparing the configured thresholds.
-        triggers = [rule["id"] for rule in RULES if (metrics[rule["metric"]] >= rule["threshold_pct"] if rule["comparison"] == ">=" else metrics[rule["metric"]] <= rule["threshold_pct"])]
+        triggers = triggered_rules(current, peak, morning_low, bars[reference])
         level = "elevated" if len(triggers) >= 2 else "watch" if triggers else "no_trigger"
         return {"canonical_code": spec.code, "canonical_name": spec.name, "status": "ok", "level": level, "as_of": as_of.isoformat(), "expires_at": quote["expires_at"], "metrics": metrics, "triggers": triggers, "reasons": []}
     except (KeyError, TypeError, ValueError, AttributeError, OverflowError) as exc:
@@ -122,6 +135,8 @@ def assess_risk_at_read(snapshot, now):
             raise ValueError
         for code, risk in indices.items():
             quote = quotes[code]
+            if risk["canonical_name"] != next(spec.name for spec in INSTRUMENTS if spec.code == code):
+                raise ValueError
             if risk["status"] != "ok" or risk["as_of"] != quote["source_timestamp"] or risk["expires_at"] != quote["expires_at"] or timestamp(risk["expires_at"]) < timestamp(now):
                 raise ValueError
             if risk["metrics"]["current_close"] != quote["quote"]["close"]:
@@ -129,9 +144,11 @@ def assess_risk_at_read(snapshot, now):
             metrics = risk["metrics"]
             period = metrics["bar_period_minutes"]
             at = timestamp(risk["as_of"])
-            if period != quote["source"]["period_minutes"] or period not in (1, 5):
+            if type(period) is not int or period != quote["source"]["period_minutes"] or period not in (1, 5):
                 raise ValueError
-            if metrics["sample_count"] < len(expected_times(at.date(), at, period)) or metrics["reference_20m_timestamp"] != (at - timedelta(minutes=20)).isoformat():
+            count = metrics["sample_count"]
+            required_count = len(expected_times(at.date(), at, period))
+            if type(count) is not int or not required_count <= count <= required_count + 2 or metrics["reference_20m_timestamp"] != (at - timedelta(minutes=20)).isoformat():
                 raise ValueError
             values = [metrics[key] for key in ("current_close", "sampled_peak_close", "morning_sampled_low_close", "reference_20m_close")]
             if any(isinstance(value, bool) or not isfinite(value) or value <= 0 for value in values):
@@ -143,7 +160,7 @@ def assess_risk_at_read(snapshot, now):
             for rule, value in zip(RULES, expected):
                 if not isfinite(metrics[rule["metric"]]) or not isclose(metrics[rule["metric"]], value, rel_tol=1e-12, abs_tol=1e-10):
                     raise ValueError
-            triggers = [rule["id"] for rule, value in zip(RULES, expected) if (value >= rule["threshold_pct"] if rule["comparison"] == ">=" else value <= rule["threshold_pct"])]
+            triggers = triggered_rules(current, peak, morning, reference)
             level = "elevated" if len(triggers) >= 2 else "watch" if triggers else "no_trigger"
             if risk["triggers"] != triggers or risk["level"] != level or risk["reasons"]:
                 raise ValueError
