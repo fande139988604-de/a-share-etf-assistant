@@ -1,9 +1,22 @@
 name: Collect 14:30 index snapshot
 on:
   schedule:
-    # UTC 06:23 = Asia/Shanghai 14:23; warm up then wait for 14:30.
-    - cron: '23 6 * * 1-5'
+    # UTC 05:17 = Beijing 13:17; observed delays were 29-55 minutes.
+    # Prepare early then wait for exchange time. Schedule is not an SLA.
+    - cron: '17 5 * * 1-5'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/collect.yml'
+      - 'etf_assistant/**'
+      - 'scripts/prepare_publication.py'
+      - 'scripts/render_snapshot.py'
+      - 'scripts/make_openapi.py'
+      - 'scripts/check_delivery.py'
+      - 'schemas/**'
+      - 'requirements.lock.txt'
+      - 'pyproject.toml'
 permissions:
   contents: write
 concurrency:
@@ -12,12 +25,13 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 100
     outputs:
       pages_ready: ${{ steps.pages-artifact.outcome == 'success' }}
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.repository.default_branch }}
           persist-credentials: true
       - uses: actions/setup-python@v5
         with:
@@ -28,21 +42,27 @@ jobs:
       - run: python -m pip install --no-deps -e .
       - name: Run offline gates
         run: python -m pytest -q
-      - name: Collect (publishes explicit failure when stale or unavailable)
+      - name: Record run start
+        id: clock
+        run: echo "started_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+      - name: Collect with time reserved for publishing
         id: capture
         continue-on-error: true
-        run: python -m etf_assistant.cli collect --wait --retry-window --evidence reports/live-raw.json
-      - name: Generate public Action schema
+        run: python -m etf_assistant.cli collect --wait --retry-window --capture-seconds 120 --output reports/staged-public/latest.json --evidence reports/live-raw.json
+      - name: Validate this run and prepare JSON and HTML
+        id: prepare
         if: always() && steps.capture.outcome != 'skipped'
         env:
+          STARTED_AT: ${{ steps.clock.outputs.started_at }}
           REPO_SLUG: ${{ github.repository }}
           REF_NAME: ${{ github.event.repository.default_branch }}
           PAGES_BASE: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
         run: |
+          python scripts/prepare_publication.py --source reports/staged-public/latest.json --started-at "$STARTED_AT"
           python scripts/make_openapi.py "${PAGES_BASE}/latest.json"
-          python scripts/render_snapshot.py
       - name: Publish JSON with built-in repository token
-        if: always() && steps.capture.outcome != 'skipped'
+        id: publish
+        if: always() && steps.prepare.outcome == 'success'
         run: |
           test -f public/latest.json
           git config user.name 'github-actions[bot]'
@@ -50,30 +70,22 @@ jobs:
           git add -f public/latest.json public/archive/ public/openapi.json public/snapshot.html
           if ! git diff --cached --quiet; then
             git commit -m "Publish validated index snapshot"
-            git push
+            git push origin HEAD:${{ github.event.repository.default_branch }}
           fi
       - name: Verify anonymous public HTTPS read
-        if: always() && steps.capture.outcome != 'skipped'
+        if: always() && steps.publish.outcome == 'success'
         env:
           REPO_SLUG: ${{ github.repository }}
           REF_NAME: ${{ github.event.repository.default_branch }}
         run: |
           for attempt in 1 2 3; do
-            if python -m etf_assistant.cli verify-url "https://raw.githubusercontent.com/${REPO_SLUG}/${REF_NAME}/public/latest.json" --expected public/latest.json --output public/verification.json; then
+            if python -m etf_assistant.cli verify-url "https://raw.githubusercontent.com/${REPO_SLUG}/${REF_NAME}/public/latest.json" --expected public/latest.json --output reports/raw-verification.json; then
               break
             fi
-            sleep 10
+            sleep 5
           done
-          python -c "import json; assert json.load(open('public/verification.json'))['public_https_verified']"
-      - name: Publish verification result
-        if: always() && steps.capture.outcome != 'skipped'
-        run: |
-          test -f public/verification.json
-          git add -f public/verification.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Record public HTTPS verification"
-            git push
-          fi
+          python -c "import json; assert json.load(open('reports/raw-verification.json'))['public_https_verified']"
+          cp reports/raw-verification.json public/verification.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -84,7 +96,7 @@ jobs:
           retention-days: 14
       - name: Prepare public JSON hosting
         id: pages-artifact
-        if: always() && steps.capture.outcome != 'skipped'
+        if: always() && steps.publish.outcome == 'success'
         uses: actions/upload-pages-artifact@v4
         with:
           path: public
@@ -105,3 +117,34 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: collection-evidence-${{ github.run_id }}
+          path: verification-input
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install requests jsonschema tzdata
+      - name: Verify deployed JSON and HTML and delivery freshness
+        env:
+          PAGES_BASE: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: |
+          for endpoint in latest.json snapshot.html; do
+            passed=false
+            for attempt in 1 2 3; do
+              if python -m etf_assistant.cli verify-url "$PAGES_BASE/$endpoint" --expected verification-input/public/latest.json --output "reports/pages-$endpoint.json"; then
+                passed=true
+                break
+              fi
+              sleep 5
+            done
+            test "$passed" = true
+          done
+          python scripts/check_delivery.py verification-input/public/latest.json reports/pages-latest.json.json reports/pages-snapshot.html.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pages-verification-${{ github.run_id }}
+          path: reports/pages-*.json
+          retention-days: 14

@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import time
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlsplit
 
 from .core import INSTRUMENTS, TARGET, TZ, assess_public_snapshot, build_snapshot, calendar_state, shanghai_now, timestamp
@@ -20,14 +21,16 @@ def write_json(path: Path, value: dict):
     os.replace(temporary, path)
 
 
-def collect(provider, clock=shanghai_now) -> tuple[dict, dict]:
-    calendar = provider.calendar()
+def collect(provider, clock=shanghai_now, calendar=None) -> tuple[dict, dict]:
+    calendar = provider.calendar() if calendar is None else calendar
     now = clock()
     trading = calendar_state(calendar, now.date())
     packets = {}
     if trading["is_trading_day"] is True:
-        for spec in INSTRUMENTS:
-            packets[spec.code] = provider.minutes(spec, now=clock)
+        # Workers are isolated processes; the AKShare request patches never race.
+        with ThreadPoolExecutor(max_workers=len(INSTRUMENTS)) as executor:
+            futures = {spec.code: executor.submit(provider.minutes, spec, now=clock) for spec in INSTRUMENTS}
+            packets = {code: future.result() for code, future in futures.items()}
     now = clock()  # Network latency counts against freshness.
     return build_snapshot(calendar, packets, now), {"calendar": calendar, "packets": packets}
 
@@ -36,23 +39,32 @@ def collect_command(args) -> int:
     provider = AKShareProvider()
     now = shanghai_now()
     target = datetime.combine(now.date(), TARGET, TZ)
-    if args.wait and now < target:
+    started_at = now
+    # Fetch/cache the calendar before waiting, not in the publication window.
+    calendar = provider.calendar()
+    trading = calendar_state(calendar, now.date())
+    if args.wait and trading["is_trading_day"] is not False and now < target:
         remaining = (target - now).total_seconds()
-        if remaining > 900:
-            raise SystemExit("Wait must start within 15 minutes before 14:30 Asia/Shanghai.")
+        if remaining > 90 * 60:
+            raise SystemExit("Wait must start within 90 minutes before 14:30 Asia/Shanghai.")
         while shanghai_now() < target:
             time.sleep(min(10, max(0.01, (target - shanghai_now()).total_seconds())))
-    snapshot, raw = collect(provider)
-    while args.retry_window and snapshot["status"] == "unavailable" and shanghai_now() < target + timedelta(minutes=5):
+    provider.deadline = target + timedelta(seconds=args.capture_seconds)
+    snapshot, raw = collect(provider, calendar=calendar)
+    attempts = [{"generated_at": snapshot["generated_at"], "status": snapshot["status"], "risk_status": snapshot["risk_analysis"]["status"], "packets": raw["packets"]}]
+    while args.retry_window and (snapshot["status"] in ("unavailable", "calendar_unverified") or (snapshot["status"] == "ok" and snapshot["risk_analysis"]["status"] != "ok")) and shanghai_now() + timedelta(seconds=10) < provider.deadline:
         time.sleep(10)
         snapshot, raw = collect(provider)
+        attempts.append({"generated_at": snapshot["generated_at"], "status": snapshot["status"], "risk_status": snapshot["risk_analysis"]["status"], "packets": raw["packets"]})
+    snapshot["collection"] = {"started_at": started_at.isoformat(), "capture_deadline": provider.deadline.isoformat(), "attempt_count": len(attempts), "schedule_late": started_at > target + timedelta(minutes=5)}
+    raw["collection_attempts"] = attempts
     destination = Path(args.output)
     write_json(destination, snapshot)  # Failure replaces old output as well.
     write_json(destination.parent / "archive" / (snapshot["trading_day"]["date"] + ".json"), snapshot)
     if args.evidence:
         write_json(Path(args.evidence), raw)
     print(json.dumps({"status": snapshot["status"], "generated_at": snapshot["generated_at"], "live_usable_at_collection": snapshot["live_usable_at_collection"], "indices": [{"code": q["canonical_code"], "status": q["status"], "source_timestamp": q["source_timestamp"]} for q in snapshot["indices"]]}, ensure_ascii=False))
-    return 0 if snapshot["status"] in ("ok", "market_closed") else 2
+    return 0 if snapshot["status"] == "market_closed" or (snapshot["status"] == "ok" and snapshot["risk_analysis"]["status"] == "ok") else 2
 
 
 def live_test(args) -> int:
@@ -98,17 +110,23 @@ def verify_url(args) -> int:
         try:
             # No authentication, cookies, credentials, proxy credentials or env dumps.
             expected = None
-            params = None
+            # A deterministic content hash alone can itself hit an old cache.
+            params = {"read_at": str(time.time_ns())}
             if args.expected:
                 expected = json.loads(Path(args.expected).read_text(encoding="utf-8"))
-                params = {"v": hashlib.sha256(json.dumps(expected, sort_keys=True, ensure_ascii=False).encode()).hexdigest()}
+                params["v"] = hashlib.sha256(json.dumps(expected, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
             response = requests.get(args.url, params=params, timeout=(5, 20), headers={"Cache-Control": "no-cache"}, allow_redirects=False)
             report["http_status"] = response.status_code
             report["content_type"] = response.headers.get("Content-Type", "")
+            report["cache_headers"] = {k: response.headers[k] for k in ("Date", "Age", "ETag", "Cache-Control", "Last-Modified") if k in response.headers}
             response.raise_for_status()
             if response.status_code != 200:
                 raise ValueError("unexpected_http_status")
-            document = response.json()
+            if urlsplit(args.url).path.endswith(".html"):
+                from .publication import extract_snapshot
+                document = extract_snapshot(response.text)
+            else:
+                document = response.json()
             schema = json.loads((Path(__file__).parents[1] / "schemas" / "snapshot.schema.json").read_text(encoding="utf-8"))
             Draft202012Validator(schema).validate(document)
             if expected is not None:
@@ -116,6 +134,9 @@ def verify_url(args) -> int:
                 if document != expected:
                     raise ValueError("published_snapshot_mismatch")
             report.update(public_https_verified=True, schema_verified=True)
+            report["snapshot_generated_at"] = document["generated_at"]
+            report["snapshot_status"] = document["status"]
+            report["risk_status"] = document.get("risk_analysis", {}).get("status")
             report.update(assess_public_snapshot(document, shanghai_now()))
             from .risk import assess_risk_at_read
             report.update(assess_risk_at_read(document, shanghai_now()))
@@ -123,6 +144,8 @@ def verify_url(args) -> int:
             report["reasons"].append("https_or_schema_check_failed:" + type(exc).__name__)
     write_json(Path(args.output), report)
     print(json.dumps(report, ensure_ascii=False))
+    if getattr(args, "require_live", False):
+        return 0 if report["public_https_verified"] and report.get("live_usable_at_read") and report.get("risk_usable_at_read") else 2
     return 0 if report["public_https_verified"] else 2
 
 
@@ -147,6 +170,7 @@ def main() -> int:
     collector.add_argument("--evidence")
     collector.add_argument("--wait", action="store_true")
     collector.add_argument("--retry-window", action="store_true")
+    collector.add_argument("--capture-seconds", type=int, choices=range(1, 301), default=120, metavar="1..300", help="Stop network/retries after this many seconds past 14:30; default leaves three minutes for publishing")
     collector.set_defaults(run=collect_command)
     probe = sub.add_parser("live-test")
     probe.add_argument("--output-dir", default="reports/live")
@@ -155,6 +179,7 @@ def main() -> int:
     url.add_argument("url")
     url.add_argument("--output", default="reports/public-url.json")
     url.add_argument("--expected", help="Compare HTTPS content with this locally published snapshot")
+    url.add_argument("--require-live", action="store_true", help="Require fresh quotes AND usable risk; HTTP success alone is insufficient")
     url.set_defaults(run=verify_url)
     local = sub.add_parser("read-local")
     local.add_argument("path", nargs="?", default="public/latest.json")
