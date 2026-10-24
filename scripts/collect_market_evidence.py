@@ -25,7 +25,7 @@ def main() -> None:
     path = Path(args.output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(bundle, ensure_ascii=False, allow_nan=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(path), "indices": {code: entry["source"]["status"] for code, entry in bundle["indices"].items()},
+    print(json.dumps({"output": str(path), "indices": {code: {key: entry["source"].get(key) for key in ("status", "reason", "http_status", "source_code", "source_name", "source_timestamp", "attempts")} for code, entry in bundle["indices"].items()},
                       "calendar": bundle["calendar"].get("status", "unavailable")}, ensure_ascii=False))
 
 

@@ -180,3 +180,34 @@ def test_delivery_after_reminder_is_explicit_failure_even_inside_fresh_window():
         check({"status": "ok", "target_at": "2026-10-23T14:30:00+08:00"}, [report])
     report["checked_at"] = "2026-10-23T14:32:50+08:00"
     check({"status": "ok", "target_at": "2026-10-23T14:30:00+08:00"}, [report])
+
+
+def test_publication_stages_tracked_verification_before_rebase(tmp_path):
+    import subprocess
+    import shlex
+    from pathlib import Path
+    import yaml
+    from etf_assistant.cli import write_json
+    from scripts.prepare_publication import prepare
+    from test_risk import NOW as CAPTURED, CALENDAR, packets
+    public = tmp_path / "public"
+    public.mkdir()
+    (public / "verification.json").write_text('{"old":true}', encoding="utf-8")
+    run = lambda *args: subprocess.run(["git", *args], cwd=tmp_path, check=True, capture_output=True, text=True)
+    run("init")
+    run("add", "public/verification.json")
+    run("-c", "user.name=Test", "-c", "user.email=test@example.invalid", "commit", "-m", "prior publication")
+    snapshot = build_snapshot(CALENDAR, packets(), CAPTURED)
+    write_json(tmp_path / "new.json", snapshot)
+    prepare(tmp_path / "new.json", public, CAPTURED, CAPTURED)
+    (public / "openapi.json").write_text('{}', encoding="utf-8")
+    (public / "market-evidence.json").write_text('{}', encoding="utf-8")
+    (public / "market-evidence.html").write_text('research', encoding="utf-8")
+    (public / "research").mkdir()
+    (public / "research/test.jsonl").write_text('{}\n', encoding="utf-8")
+    workflow = yaml.load((Path(__file__).parents[1] / ".github/workflows/collect.yml").read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    publish = next(step for step in workflow["jobs"]["collect"]["steps"] if step.get("id") == "publish")
+    for line in publish["run"].splitlines():
+        if line.startswith("git add "):
+            run(*shlex.split(line)[1:])
+    assert run("diff", "--name-only").stdout.strip() == ""
