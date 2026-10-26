@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
   "data_kind": "live",
-  "status": "market_closed",
-  "generated_at": "2026-10-24T18:45:16.806998+08:00",
+  "status": "unavailable",
+  "generated_at": "2026-10-26T14:31:58.417705+08:00",
   "timezone": "Asia/Shanghai",
-  "target_at": "2026-10-24T14:30:00+08:00",
+  "target_at": "2026-10-26T14:30:00+08:00",
   "max_age_seconds": 300,
   "live_usable_at_collection": false,
   "expires_at": null,
   "trading_day": {
     "source": "akshare.tool_trade_date_hist_sina",
-    "checked_at": "2026-10-24T18:45:16.708017+08:00",
-    "date": "2026-10-24",
-    "is_trading_day": false,
+    "checked_at": "2026-10-26T13:42:47.899785+08:00",
+    "date": "2026-10-26",
+    "is_trading_day": true,
     "coverage_start": "1990-12-19",
     "coverage_end": "2026-12-31",
     "status": "verified"
@@ -22,7 +22,7 @@
       "canonical_code": "000510",
       "canonical_name": "中证A500",
       "instrument_type": "index",
-      "status": "market_closed",
+      "status": "source_unavailable",
       "valid_at_collection": false,
       "identity_verified": false,
       "source": {
@@ -33,7 +33,7 @@
         "response_name": null,
         "identity_origin": null,
         "response_sha256": null,
-        "received_at": null,
+        "received_at": "2026-10-26T14:31:58.417501+08:00",
         "period_minutes": null,
         "transport": null,
         "timestamp_kind": "source_minute_bar_time",
@@ -44,14 +44,14 @@
       "expires_at": null,
       "quote": null,
       "reasons": [
-        "market_closed"
+        "source_unavailable"
       ]
     },
     {
       "canonical_code": "399673",
       "canonical_name": "创业板50",
       "instrument_type": "index",
-      "status": "market_closed",
+      "status": "source_unavailable",
       "valid_at_collection": false,
       "identity_verified": false,
       "source": {
@@ -62,7 +62,7 @@
         "response_name": null,
         "identity_origin": null,
         "response_sha256": null,
-        "received_at": null,
+        "received_at": "2026-10-26T14:31:51.523915+08:00",
         "period_minutes": null,
         "transport": null,
         "timestamp_kind": "source_minute_bar_time",
@@ -73,7 +73,7 @@
       "expires_at": null,
       "quote": null,
       "reasons": [
-        "market_closed"
+        "source_unavailable"
       ]
     }
   ],
@@ -140,9 +140,9 @@
     "consumer_rule": "Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe."
   },
   "collection": {
-    "started_at": "2026-10-24T18:45:15.902996+08:00",
-    "capture_deadline": "2026-10-24T14:32:00+08:00",
-    "attempt_count": 1,
-    "schedule_late": true
+    "started_at": "2026-10-26T13:42:47.292307+08:00",
+    "capture_deadline": "2026-10-26T14:32:00+08:00",
+    "attempt_count": 6,
+    "schedule_late": false
   }
 }

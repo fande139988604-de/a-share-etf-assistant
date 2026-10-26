@@ -1,6 +1,6 @@
 {
   "schema_version": "market_evidence.v1",
-  "generated_at": "2026-10-24T18:45:15.004400+08:00",
+  "generated_at": "2026-10-26T13:42:47.160173+08:00",
   "timezone": "Asia/Shanghai",
   "scope": [
     "000510",
@@ -39,7 +39,7 @@
           "fact": "completed_session_close_return",
           "value_pct": 2.058709148031168,
           "date": "2026-10-23",
-          "source_id": "eastmoney.daily.000510.2b4e9759a777ce6ae611",
+          "source_id": "eastmoney.daily.000510.08f016d71dca62b24633",
           "interpretation": "price_observation_not_proof_of_bottom"
         }
       ],
@@ -48,7 +48,7 @@
           "fact": "low_holds_prior_session_low",
           "value": false,
           "date": "2026-10-23",
-          "source_id": "eastmoney.daily.000510.2b4e9759a777ce6ae611"
+          "source_id": "eastmoney.daily.000510.08f016d71dca62b24633"
         }
       ],
       "confidence": "limited",
@@ -56,12 +56,12 @@
       "falsifier": "后续收盘再破前低或低点持续下移，且成长/广度未改善",
       "next_proof": "下个完成交易日的低点、收盘、量能，以及同口径广度和前一交易日ETF净申购",
       "source": {
-        "source_id": "eastmoney.daily.000510.2b4e9759a777ce6ae611",
-        "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000510&klt=101&fqt=0&beg=20260407&end=20261024&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
+        "source_id": "eastmoney.daily.000510.08f016d71dca62b24633",
+        "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000510&klt=101&fqt=0&beg=20260409&end=20261026&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
         "provider": "eastmoney",
-        "received_at": "2026-10-24T18:45:14.324042+08:00",
+        "received_at": "2026-10-26T13:42:47.042167+08:00",
         "source_timestamp": "2026-10-23T15:00:00+08:00",
-        "response_sha256": "2b4e9759a777ce6ae611168a25f9179b4013709c6773103a04fc8147353f5ede",
+        "response_sha256": "08f016d71dca62b2463340b3e4e3ebe1fbd059b95978d97f371a877d1e483898",
         "http_status": 200,
         "transport": "requests",
         "identity_verified": true,
@@ -74,7 +74,7 @@
         "timestamp_kind": "completed_daily_bar_exchange_close",
         "volume_unit": "provider_reported_volume",
         "amount_unit": "CNY",
-        "decision_cutoff": "2026-10-24T18:45:13.431818+08:00",
+        "decision_cutoff": "2026-10-26T13:42:43.454721+08:00",
         "limitations": [
           "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
           "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
@@ -171,7 +171,7 @@
           "fact": "completed_session_close_return",
           "value_pct": 4.33527006506349,
           "date": "2026-10-23",
-          "source_id": "eastmoney.daily.399673.e469185db11b5f3a5123",
+          "source_id": "eastmoney.daily.399673.7acf17b9badf06fba08d",
           "interpretation": "price_observation_not_proof_of_bottom"
         }
       ],
@@ -180,7 +180,7 @@
           "fact": "low_holds_prior_session_low",
           "value": false,
           "date": "2026-10-23",
-          "source_id": "eastmoney.daily.399673.e469185db11b5f3a5123"
+          "source_id": "eastmoney.daily.399673.7acf17b9badf06fba08d"
         }
       ],
       "confidence": "limited",
@@ -188,12 +188,12 @@
       "falsifier": "后续收盘再破前低或低点持续下移，且成长/广度未改善",
       "next_proof": "下个完成交易日的低点、收盘、量能，以及同口径广度和前一交易日ETF净申购",
       "source": {
-        "source_id": "eastmoney.daily.399673.e469185db11b5f3a5123",
-        "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399673&klt=101&fqt=0&beg=20260407&end=20261024&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
+        "source_id": "eastmoney.daily.399673.7acf17b9badf06fba08d",
+        "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399673&klt=101&fqt=0&beg=20260409&end=20261026&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
         "provider": "eastmoney",
-        "received_at": "2026-10-24T18:45:14.775760+08:00",
+        "received_at": "2026-10-26T13:42:46.604104+08:00",
         "source_timestamp": "2026-10-23T15:00:00+08:00",
-        "response_sha256": "e469185db11b5f3a5123964553a7510140204d6942cb9305866c756734f576bc",
+        "response_sha256": "7acf17b9badf06fba08d2d1c21ee36b23a0641d2585f889d81a8c8f003f41dda",
         "http_status": 200,
         "transport": "requests",
         "identity_verified": true,
@@ -206,7 +206,7 @@
         "timestamp_kind": "completed_daily_bar_exchange_close",
         "volume_unit": "provider_reported_volume",
         "amount_unit": "CNY",
-        "decision_cutoff": "2026-10-24T18:45:13.431818+08:00",
+        "decision_cutoff": "2026-10-26T13:42:43.454721+08:00",
         "limitations": [
           "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
           "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
@@ -279,12 +279,12 @@
   ],
   "sources": [
     {
-      "source_id": "eastmoney.daily.000510.2b4e9759a777ce6ae611",
-      "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000510&klt=101&fqt=0&beg=20260407&end=20261024&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
+      "source_id": "eastmoney.daily.000510.08f016d71dca62b24633",
+      "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000510&klt=101&fqt=0&beg=20260409&end=20261026&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
       "provider": "eastmoney",
-      "received_at": "2026-10-24T18:45:14.324042+08:00",
+      "received_at": "2026-10-26T13:42:47.042167+08:00",
       "source_timestamp": "2026-10-23T15:00:00+08:00",
-      "response_sha256": "2b4e9759a777ce6ae611168a25f9179b4013709c6773103a04fc8147353f5ede",
+      "response_sha256": "08f016d71dca62b2463340b3e4e3ebe1fbd059b95978d97f371a877d1e483898",
       "http_status": 200,
       "transport": "requests",
       "identity_verified": true,
@@ -297,19 +297,19 @@
       "timestamp_kind": "completed_daily_bar_exchange_close",
       "volume_unit": "provider_reported_volume",
       "amount_unit": "CNY",
-      "decision_cutoff": "2026-10-24T18:45:13.431818+08:00",
+      "decision_cutoff": "2026-10-26T13:42:43.454721+08:00",
       "limitations": [
         "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
         "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
       ]
     },
     {
-      "source_id": "eastmoney.daily.399673.e469185db11b5f3a5123",
-      "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399673&klt=101&fqt=0&beg=20260407&end=20261024&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
+      "source_id": "eastmoney.daily.399673.7acf17b9badf06fba08d",
+      "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399673&klt=101&fqt=0&beg=20260409&end=20261026&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
       "provider": "eastmoney",
-      "received_at": "2026-10-24T18:45:14.775760+08:00",
+      "received_at": "2026-10-26T13:42:46.604104+08:00",
       "source_timestamp": "2026-10-23T15:00:00+08:00",
-      "response_sha256": "e469185db11b5f3a5123964553a7510140204d6942cb9305866c756734f576bc",
+      "response_sha256": "7acf17b9badf06fba08d2d1c21ee36b23a0641d2585f889d81a8c8f003f41dda",
       "http_status": 200,
       "transport": "requests",
       "identity_verified": true,
@@ -322,7 +322,7 @@
       "timestamp_kind": "completed_daily_bar_exchange_close",
       "volume_unit": "provider_reported_volume",
       "amount_unit": "CNY",
-      "decision_cutoff": "2026-10-24T18:45:13.431818+08:00",
+      "decision_cutoff": "2026-10-26T13:42:43.454721+08:00",
       "limitations": [
         "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
         "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
@@ -379,7 +379,7 @@
           "excerpt_sha256": "7b91f341b74b43aa824e0628e1503e7cd132d48fbd70b100fd3bad6cc7a673f6"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 0,
+        "review_age_days": 2,
         "needs_source_recheck": false,
         "date": "2026-10-27",
         "scheduled_at": "2026-10-27T09:30:00+08:00",
@@ -405,7 +405,7 @@
           "excerpt_sha256": "57b0eb6a668ff143fb3be363eeb6241a77187f8c71184c10f620e963622ef672"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 0,
+        "review_age_days": 2,
         "needs_source_recheck": false,
         "date": "2026-11-09",
         "scheduled_at": "2026-11-09T09:30:00+08:00",
@@ -431,7 +431,7 @@
           "excerpt_sha256": "61cbce1db47431655a4be647a48b03bd2c46cdb0aff0b867bc28ffdb97cefbc5"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 0,
+        "review_age_days": 2,
         "needs_source_recheck": false,
         "date": "2026-11-16",
         "scheduled_at": "2026-11-16T10:00:00+08:00",
@@ -457,7 +457,7 @@
           "excerpt_sha256": "1d4e7b4c33576d2550f95fb47928c4c1e438394494513daae8444c519e5dac8b"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 0,
+        "review_age_days": 2,
         "needs_source_recheck": false,
         "date": null,
         "scheduled_at": null,
@@ -486,7 +486,7 @@
           "excerpt_sha256": "1a10a222faa384deafcb31e6837520aa46dfaeafe0b401c53519db8596f5fa2b"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 0,
+        "review_age_days": 2,
         "needs_source_recheck": false,
         "date": null,
         "scheduled_at": null,
