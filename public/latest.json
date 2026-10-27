@@ -2,16 +2,16 @@
   "schema_version": "1.0",
   "data_kind": "live",
   "status": "unavailable",
-  "generated_at": "2026-10-26T14:31:58.417705+08:00",
+  "generated_at": "2026-10-27T14:31:52.377884+08:00",
   "timezone": "Asia/Shanghai",
-  "target_at": "2026-10-26T14:30:00+08:00",
+  "target_at": "2026-10-27T14:30:00+08:00",
   "max_age_seconds": 300,
   "live_usable_at_collection": false,
   "expires_at": null,
   "trading_day": {
     "source": "akshare.tool_trade_date_hist_sina",
-    "checked_at": "2026-10-26T13:42:47.899785+08:00",
-    "date": "2026-10-26",
+    "checked_at": "2026-10-27T13:40:28.247081+08:00",
+    "date": "2026-10-27",
     "is_trading_day": true,
     "coverage_start": "1990-12-19",
     "coverage_end": "2026-12-31",
@@ -22,20 +22,20 @@
       "canonical_code": "000510",
       "canonical_name": "中证A500",
       "instrument_type": "index",
-      "status": "source_unavailable",
+      "status": "future_source_timestamp",
       "valid_at_collection": false,
-      "identity_verified": false,
+      "identity_verified": true,
       "source": {
         "provider": "eastmoney",
         "interface": "akshare.index_zh_a_hist_min_em",
-        "secid": null,
-        "response_code": null,
-        "response_name": null,
-        "identity_origin": null,
-        "response_sha256": null,
-        "received_at": "2026-10-26T14:31:58.417501+08:00",
-        "period_minutes": null,
-        "transport": null,
+        "secid": "1.000510",
+        "response_code": "000510",
+        "response_name": "中证A500",
+        "identity_origin": "same_minute_response",
+        "response_sha256": "c98c18c5b93f6014bb360b923d969989ffb530a320f31b718ded458bd5781739",
+        "received_at": "2026-10-27T14:31:47.624768+08:00",
+        "period_minutes": 1,
+        "transport": "curl_cffi_chrome",
         "timestamp_kind": "source_minute_bar_time",
         "timestamp_timezone": "Asia/Shanghai"
       },
@@ -44,27 +44,27 @@
       "expires_at": null,
       "quote": null,
       "reasons": [
-        "source_unavailable"
+        "future_source_timestamp"
       ]
     },
     {
       "canonical_code": "399673",
       "canonical_name": "创业板50",
       "instrument_type": "index",
-      "status": "source_unavailable",
+      "status": "future_source_timestamp",
       "valid_at_collection": false,
-      "identity_verified": false,
+      "identity_verified": true,
       "source": {
         "provider": "eastmoney",
         "interface": "akshare.index_zh_a_hist_min_em",
-        "secid": null,
-        "response_code": null,
-        "response_name": null,
-        "identity_origin": null,
-        "response_sha256": null,
-        "received_at": "2026-10-26T14:31:51.523915+08:00",
-        "period_minutes": null,
-        "transport": null,
+        "secid": "0.399673",
+        "response_code": "399673",
+        "response_name": "创业板50",
+        "identity_origin": "same_minute_response",
+        "response_sha256": "05b17221713470e55b33857817bad5ce506224ad97ac1733e15fcc9ce8984b48",
+        "received_at": "2026-10-27T14:31:47.147850+08:00",
+        "period_minutes": 1,
+        "transport": "curl_cffi_chrome",
         "timestamp_kind": "source_minute_bar_time",
         "timestamp_timezone": "Asia/Shanghai"
       },
@@ -73,7 +73,7 @@
       "expires_at": null,
       "quote": null,
       "reasons": [
-        "source_unavailable"
+        "future_source_timestamp"
       ]
     }
   ],
@@ -140,9 +140,9 @@
     "consumer_rule": "Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe."
   },
   "collection": {
-    "started_at": "2026-10-26T13:42:47.292307+08:00",
-    "capture_deadline": "2026-10-26T14:32:00+08:00",
-    "attempt_count": 6,
+    "started_at": "2026-10-27T13:40:27.478892+08:00",
+    "capture_deadline": "2026-10-27T14:32:00+08:00",
+    "attempt_count": 7,
     "schedule_late": false
   }
 }

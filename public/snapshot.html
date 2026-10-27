@@ -9,16 +9,16 @@
   &quot;schema_version&quot;: &quot;1.0&quot;,
   &quot;data_kind&quot;: &quot;live&quot;,
   &quot;status&quot;: &quot;unavailable&quot;,
-  &quot;generated_at&quot;: &quot;2026-10-26T14:31:58.417705+08:00&quot;,
+  &quot;generated_at&quot;: &quot;2026-10-27T14:31:52.377884+08:00&quot;,
   &quot;timezone&quot;: &quot;Asia/Shanghai&quot;,
-  &quot;target_at&quot;: &quot;2026-10-26T14:30:00+08:00&quot;,
+  &quot;target_at&quot;: &quot;2026-10-27T14:30:00+08:00&quot;,
   &quot;max_age_seconds&quot;: 300,
   &quot;live_usable_at_collection&quot;: false,
   &quot;expires_at&quot;: null,
   &quot;trading_day&quot;: {
     &quot;source&quot;: &quot;akshare.tool_trade_date_hist_sina&quot;,
-    &quot;checked_at&quot;: &quot;2026-10-26T13:42:47.899785+08:00&quot;,
-    &quot;date&quot;: &quot;2026-10-26&quot;,
+    &quot;checked_at&quot;: &quot;2026-10-27T13:40:28.247081+08:00&quot;,
+    &quot;date&quot;: &quot;2026-10-27&quot;,
     &quot;is_trading_day&quot;: true,
     &quot;coverage_start&quot;: &quot;1990-12-19&quot;,
     &quot;coverage_end&quot;: &quot;2026-12-31&quot;,
@@ -29,20 +29,20 @@
       &quot;canonical_code&quot;: &quot;000510&quot;,
       &quot;canonical_name&quot;: &quot;中证A500&quot;,
       &quot;instrument_type&quot;: &quot;index&quot;,
-      &quot;status&quot;: &quot;source_unavailable&quot;,
+      &quot;status&quot;: &quot;future_source_timestamp&quot;,
       &quot;valid_at_collection&quot;: false,
-      &quot;identity_verified&quot;: false,
+      &quot;identity_verified&quot;: true,
       &quot;source&quot;: {
         &quot;provider&quot;: &quot;eastmoney&quot;,
         &quot;interface&quot;: &quot;akshare.index_zh_a_hist_min_em&quot;,
-        &quot;secid&quot;: null,
-        &quot;response_code&quot;: null,
-        &quot;response_name&quot;: null,
-        &quot;identity_origin&quot;: null,
-        &quot;response_sha256&quot;: null,
-        &quot;received_at&quot;: &quot;2026-10-26T14:31:58.417501+08:00&quot;,
-        &quot;period_minutes&quot;: null,
-        &quot;transport&quot;: null,
+        &quot;secid&quot;: &quot;1.000510&quot;,
+        &quot;response_code&quot;: &quot;000510&quot;,
+        &quot;response_name&quot;: &quot;中证A500&quot;,
+        &quot;identity_origin&quot;: &quot;same_minute_response&quot;,
+        &quot;response_sha256&quot;: &quot;c98c18c5b93f6014bb360b923d969989ffb530a320f31b718ded458bd5781739&quot;,
+        &quot;received_at&quot;: &quot;2026-10-27T14:31:47.624768+08:00&quot;,
+        &quot;period_minutes&quot;: 1,
+        &quot;transport&quot;: &quot;curl_cffi_chrome&quot;,
         &quot;timestamp_kind&quot;: &quot;source_minute_bar_time&quot;,
         &quot;timestamp_timezone&quot;: &quot;Asia/Shanghai&quot;
       },
@@ -51,27 +51,27 @@
       &quot;expires_at&quot;: null,
       &quot;quote&quot;: null,
       &quot;reasons&quot;: [
-        &quot;source_unavailable&quot;
+        &quot;future_source_timestamp&quot;
       ]
     },
     {
       &quot;canonical_code&quot;: &quot;399673&quot;,
       &quot;canonical_name&quot;: &quot;创业板50&quot;,
       &quot;instrument_type&quot;: &quot;index&quot;,
-      &quot;status&quot;: &quot;source_unavailable&quot;,
+      &quot;status&quot;: &quot;future_source_timestamp&quot;,
       &quot;valid_at_collection&quot;: false,
-      &quot;identity_verified&quot;: false,
+      &quot;identity_verified&quot;: true,
       &quot;source&quot;: {
         &quot;provider&quot;: &quot;eastmoney&quot;,
         &quot;interface&quot;: &quot;akshare.index_zh_a_hist_min_em&quot;,
-        &quot;secid&quot;: null,
-        &quot;response_code&quot;: null,
-        &quot;response_name&quot;: null,
-        &quot;identity_origin&quot;: null,
-        &quot;response_sha256&quot;: null,
-        &quot;received_at&quot;: &quot;2026-10-26T14:31:51.523915+08:00&quot;,
-        &quot;period_minutes&quot;: null,
-        &quot;transport&quot;: null,
+        &quot;secid&quot;: &quot;0.399673&quot;,
+        &quot;response_code&quot;: &quot;399673&quot;,
+        &quot;response_name&quot;: &quot;创业板50&quot;,
+        &quot;identity_origin&quot;: &quot;same_minute_response&quot;,
+        &quot;response_sha256&quot;: &quot;05b17221713470e55b33857817bad5ce506224ad97ac1733e15fcc9ce8984b48&quot;,
+        &quot;received_at&quot;: &quot;2026-10-27T14:31:47.147850+08:00&quot;,
+        &quot;period_minutes&quot;: 1,
+        &quot;transport&quot;: &quot;curl_cffi_chrome&quot;,
         &quot;timestamp_kind&quot;: &quot;source_minute_bar_time&quot;,
         &quot;timestamp_timezone&quot;: &quot;Asia/Shanghai&quot;
       },
@@ -80,7 +80,7 @@
       &quot;expires_at&quot;: null,
       &quot;quote&quot;: null,
       &quot;reasons&quot;: [
-        &quot;source_unavailable&quot;
+        &quot;future_source_timestamp&quot;
       ]
     }
   ],
@@ -147,9 +147,9 @@
     &quot;consumer_rule&quot;: &quot;Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe.&quot;
   },
   &quot;collection&quot;: {
-    &quot;started_at&quot;: &quot;2026-10-26T13:42:47.292307+08:00&quot;,
-    &quot;capture_deadline&quot;: &quot;2026-10-26T14:32:00+08:00&quot;,
-    &quot;attempt_count&quot;: 6,
+    &quot;started_at&quot;: &quot;2026-10-27T13:40:27.478892+08:00&quot;,
+    &quot;capture_deadline&quot;: &quot;2026-10-27T14:32:00+08:00&quot;,
+    &quot;attempt_count&quot;: 7,
     &quot;schedule_late&quot;: false
   }
 }</pre>
