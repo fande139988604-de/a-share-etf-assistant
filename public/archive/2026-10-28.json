@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "data_kind": "live",
   "status": "unavailable",
-  "generated_at": "2026-10-28T15:25:15.082715+08:00",
+  "generated_at": "2026-10-28T15:32:28.577773+08:00",
   "timezone": "Asia/Shanghai",
   "target_at": "2026-10-28T14:30:00+08:00",
   "max_age_seconds": 300,
@@ -10,7 +10,7 @@
   "expires_at": null,
   "trading_day": {
     "source": "akshare.tool_trade_date_hist_sina",
-    "checked_at": "2026-10-28T15:25:14.967079+08:00",
+    "checked_at": "2026-10-28T15:32:28.471983+08:00",
     "date": "2026-10-28",
     "is_trading_day": true,
     "coverage_start": "1990-12-19",
@@ -33,7 +33,7 @@
         "response_name": null,
         "identity_origin": null,
         "response_sha256": null,
-        "received_at": "2026-10-28T15:25:15.082569+08:00",
+        "received_at": "2026-10-28T15:32:28.577563+08:00",
         "period_minutes": null,
         "transport": null,
         "timestamp_kind": "source_minute_bar_time",
@@ -62,7 +62,7 @@
         "response_name": null,
         "identity_origin": null,
         "response_sha256": null,
-        "received_at": "2026-10-28T15:25:15.082647+08:00",
+        "received_at": "2026-10-28T15:32:28.577655+08:00",
         "period_minutes": null,
         "transport": null,
         "timestamp_kind": "source_minute_bar_time",
@@ -140,7 +140,7 @@
     "consumer_rule": "Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe."
   },
   "collection": {
-    "started_at": "2026-10-28T15:25:14.437432+08:00",
+    "started_at": "2026-10-28T15:32:27.649897+08:00",
     "capture_deadline": "2026-10-28T14:32:00+08:00",
     "attempt_count": 1,
     "schedule_late": true
