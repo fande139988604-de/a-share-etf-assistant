@@ -148,11 +148,17 @@ jobs:
       - name: Verify deployed JSON and HTML and delivery freshness
         env:
           PAGES_BASE: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          REF_NAME: ${{ github.event.repository.default_branch }}
         run: |
-          for endpoint in latest.json snapshot.html; do
+          for endpoint in latest.json raw-latest.json snapshot.html; do
+            if [ "$endpoint" = raw-latest.json ]; then
+              url="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${REF_NAME}/public/latest.json"
+            else
+              url="$PAGES_BASE/$endpoint"
+            fi
             passed=false
             for attempt in 1 2 3; do
-              if python -m etf_assistant.cli verify-url "$PAGES_BASE/$endpoint" --expected verification-input/public/latest.json --output "reports/pages-$endpoint.json"; then
+              if python -m etf_assistant.cli verify-url "$url" --expected verification-input/public/latest.json --output "reports/pages-$endpoint.json"; then
                 passed=true
                 break
               fi
@@ -160,7 +166,7 @@ jobs:
             done
             test "$passed" = true
           done
-          python scripts/check_delivery.py verification-input/public/latest.json reports/pages-latest.json.json reports/pages-snapshot.html.json
+          python scripts/check_delivery.py verification-input/public/latest.json reports/pages-latest.json.json reports/pages-raw-latest.json.json reports/pages-snapshot.html.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
