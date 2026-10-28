@@ -243,6 +243,7 @@ def test_html_verification_rechecks_risk_and_busts_cache(monkeypatch, tmp_path):
         status_code = 200
         headers = {"Content-Type": "text/html", "Age": "600"}
         text = render_snapshot(doc)
+        content = text.encode("utf-8")
 
         def raise_for_status(self):
             pass

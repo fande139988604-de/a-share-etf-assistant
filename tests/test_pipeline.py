@@ -169,6 +169,7 @@ def test_public_transport_success_does_not_imply_live_or_chatgpt_success(monkeyp
     class Response:
         status_code = 200
         headers = {"Content-Type": "text/plain"}
+        content = json.dumps(document, ensure_ascii=False).encode("utf-8")
 
         def raise_for_status(self):
             pass
@@ -196,6 +197,7 @@ def test_cached_old_published_document_fails_content_match(monkeypatch, tmp_path
     class Response:
         status_code = 200
         headers = {"Content-Type": "application/json"}
+        content = json.dumps(old, ensure_ascii=False).encode("utf-8")
 
         def raise_for_status(self):
             pass

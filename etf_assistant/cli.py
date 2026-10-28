@@ -101,11 +101,34 @@ def live_test(args) -> int:
 
 def verify_url(args) -> int:
     import requests
-    from jsonschema import Draft202012Validator
+    import socket
+    from jsonschema import Draft202012Validator, FormatChecker
+    from jsonschema.exceptions import ValidationError
+    from .publication import JSONIntegrityError, SnapshotBlockError, extract_snapshot, strict_json_loads
 
-    report = {"checked_at": shanghai_now().isoformat(), "public_https_verified": False, "schema_verified": False, "chatgpt_action_verified": False, "live_usable_at_read": False, "reasons": []}
+    class VerificationFailure(Exception):
+        def __init__(self, category, reason):
+            self.category, self.reason = category, reason
+
+    def dns_failure(exc):
+        # requests/urllib3 wrap the original socket error in several layers.
+        pending, visited = [exc], set()
+        while pending:
+            item = pending.pop()
+            if id(item) in visited:
+                continue
+            visited.add(id(item))
+            if isinstance(item, socket.gaierror) or type(item).__name__ == "NameResolutionError":
+                return True
+            if isinstance(item, BaseException):
+                pending.extend(item.args)
+                pending.extend((item.__cause__, item.__context__, getattr(item, "reason", None)))
+        return False
+
+    report = {"checked_at": shanghai_now().isoformat(), "http_verified": False, "json_parsed": False, "public_https_verified": False, "schema_verified": False, "chatgpt_action_verified": False, "live_usable_at_read": False, "reasons": [], "failure_category": None}
     if urlsplit(args.url).scheme != "https" or urlsplit(args.url).username or urlsplit(args.url).password:
         report["reasons"] = ["public_https_url_required"]
+        report["failure_category"] = "configuration"
     else:
         try:
             # No authentication, cookies, credentials, proxy credentials or env dumps.
@@ -113,35 +136,90 @@ def verify_url(args) -> int:
             # A deterministic content hash alone can itself hit an old cache.
             params = {"read_at": str(time.time_ns())}
             if args.expected:
-                expected = json.loads(Path(args.expected).read_text(encoding="utf-8"))
+                try:
+                    expected = strict_json_loads(Path(args.expected).read_text(encoding="utf-8"))
+                except (OSError, UnicodeError, ValueError) as exc:
+                    raise VerificationFailure("local_input", "expected_snapshot_unreadable_or_invalid") from exc
                 params["v"] = hashlib.sha256(json.dumps(expected, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
             response = requests.get(args.url, params=params, timeout=(5, 20), headers={"Cache-Control": "no-cache"}, allow_redirects=False)
             report["http_status"] = response.status_code
             report["content_type"] = response.headers.get("Content-Type", "")
             report["cache_headers"] = {k: response.headers[k] for k in ("Date", "Age", "ETag", "Cache-Control", "Last-Modified") if k in response.headers}
-            response.raise_for_status()
             if response.status_code != 200:
-                raise ValueError("unexpected_http_status")
+                raise VerificationFailure("http", "http_status_not_200")
+            report["http_verified"] = True
+            raw = response.content
+            if not isinstance(raw, bytes):
+                raise VerificationFailure("http", "invalid_response_body_type")
+            content_length = response.headers.get("Content-Length")
+            if content_length and not response.headers.get("Content-Encoding") and not response.headers.get("Transfer-Encoding"):
+                try:
+                    if int(content_length) != len(raw):
+                        raise VerificationFailure("http", "response_length_mismatch")
+                except ValueError as exc:
+                    raise VerificationFailure("http", "invalid_content_length") from exc
+            if raw.startswith(b"\xef\xbb\xbf"):
+                raise VerificationFailure("encoding", "utf8_bom_present")
+            text = raw.decode("utf-8", errors="strict")
             if urlsplit(args.url).path.endswith(".html"):
-                from .publication import extract_snapshot
-                document = extract_snapshot(response.text)
+                document = extract_snapshot(text)
             else:
-                document = response.json()
+                if text.lstrip().startswith("<"):
+                    raise VerificationFailure("json_syntax", "html_response_for_json")
+                document = strict_json_loads(text)
+            report["json_parsed"] = True
             schema = json.loads((Path(__file__).parents[1] / "schemas" / "snapshot.schema.json").read_text(encoding="utf-8"))
-            Draft202012Validator(schema).validate(document)
+            Draft202012Validator(schema, format_checker=FormatChecker()).validate(document)
+            report["schema_verified"] = True
             if expected is not None:
                 report["published_snapshot_matches"] = document == expected
                 if document != expected:
-                    raise ValueError("published_snapshot_mismatch")
-            report.update(public_https_verified=True, schema_verified=True)
+                    raise VerificationFailure("integrity", "published_snapshot_mismatch")
+            report["public_https_verified"] = True
             report["snapshot_generated_at"] = document["generated_at"]
             report["snapshot_status"] = document["status"]
             report["risk_status"] = document.get("risk_analysis", {}).get("status")
             report.update(assess_public_snapshot(document, shanghai_now()))
             from .risk import assess_risk_at_read
             report.update(assess_risk_at_read(document, shanghai_now()))
-        except Exception as exc:
-            report["reasons"].append("https_or_schema_check_failed:" + type(exc).__name__)
+            if not report["live_usable_at_read"]:
+                report["failure_category"] = "data_validation"
+            elif not report["risk_usable_at_read"]:
+                report["failure_category"] = "risk_validation"
+        except VerificationFailure as exc:
+            report["failure_category"] = exc.category
+            report["reasons"].append(exc.reason)
+        except requests.exceptions.Timeout:
+            report["failure_category"] = "transport"
+            report["reasons"].append("http_timeout")
+        except requests.exceptions.SSLError:
+            report["failure_category"] = "transport"
+            report["reasons"].append("tls_error")
+        except requests.exceptions.ConnectionError as exc:
+            report["failure_category"] = "transport"
+            report["reasons"].append("dns_error" if dns_failure(exc) else "http_connection_error")
+        except requests.exceptions.RequestException:
+            report["failure_category"] = "transport"
+            report["reasons"].append("http_request_error")
+        except UnicodeDecodeError:
+            report["failure_category"] = "encoding"
+            report["reasons"].append("invalid_utf8")
+        except SnapshotBlockError:
+            report["failure_category"] = "html_extraction"
+            report["reasons"].append("snapshot_json_block_invalid")
+        except JSONIntegrityError as exc:
+            report["failure_category"] = "json_integrity"
+            report["reasons"].append(str(exc))
+        except json.JSONDecodeError as exc:
+            report["failure_category"] = "json_syntax"
+            report["reasons"].append("invalid_json_syntax")
+            report["json_error_position"] = {"line": exc.lineno, "column": exc.colno}
+        except ValidationError:
+            report["failure_category"] = "schema"
+            report["reasons"].append("snapshot_schema_invalid")
+        except (OSError, ValueError, TypeError, KeyError):
+            report["failure_category"] = "internal"
+            report["reasons"].append("verification_internal_error")
     write_json(Path(args.output), report)
     print(json.dumps(report, ensure_ascii=False))
     if getattr(args, "require_live", False):

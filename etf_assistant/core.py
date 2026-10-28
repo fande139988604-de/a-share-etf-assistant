@@ -118,6 +118,11 @@ def validate_quote(spec: Instrument, packet: dict, now: datetime, trade_day: boo
         "reasons": [],
     }
 
+    if packet.get("excluded_incomplete_bar"):
+        result["source"]["excluded_incomplete_bar"] = packet["excluded_incomplete_bar"]
+    if packet.get("reused_previous_valid_packet"):
+        result["source"]["reused_previous_valid_packet"] = True
+
     def reject(reason: str) -> dict:
         result["reasons"].append(reason)
         result["status"] = reason
@@ -145,6 +150,15 @@ def validate_quote(spec: Instrument, packet: dict, now: datetime, trade_day: boo
         return reject("timestamp_missing_or_invalid")
     if any(t > now for t, _ in parsed_rows):
         return reject("future_source_timestamp")
+    # Bars cannot become trustworthy merely because validation runs later.
+    try:
+        received = timestamp(packet["received_at"])
+        if received > now:
+            return reject("source_receipt_time_invalid")
+        if any(t > received for t, _ in parsed_rows):
+            return reject("future_source_timestamp")
+    except (KeyError, ValueError, TypeError, OverflowError):
+        return reject("source_receipt_time_invalid")
     today = [(t, row) for t, row in parsed_rows if t.date() == now.date()]
     if not today:
         return reject("wrong_trading_date")

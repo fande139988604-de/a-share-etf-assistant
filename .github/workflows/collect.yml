@@ -14,6 +14,7 @@ on:
       - 'scripts/render_snapshot.py'
       - 'scripts/make_openapi.py'
       - 'scripts/check_delivery.py'
+      - 'scripts/report_collection.py'
       - 'scripts/collect_market_evidence.py'
       - 'scripts/build_market_evidence.py'
       - 'scripts/render_market_evidence.py'
@@ -59,6 +60,10 @@ jobs:
         id: capture
         continue-on-error: true
         run: python -m etf_assistant.cli collect --wait --retry-window --capture-seconds 120 --output reports/staged-public/latest.json --evidence reports/live-raw.json
+      - name: Report collection diagnostics
+        if: always() && steps.capture.outcome != 'skipped'
+        continue-on-error: true
+        run: python scripts/report_collection.py reports/live-raw.json
       - name: Validate this run and prepare JSON and HTML
         id: prepare
         if: always() && steps.capture.outcome != 'skipped'
