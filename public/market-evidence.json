@@ -1,6 +1,6 @@
 {
   "schema_version": "market_evidence.v1",
-  "generated_at": "2026-10-28T15:32:27.507363+08:00",
+  "generated_at": "2026-10-29T13:51:31.212490+08:00",
   "timezone": "Asia/Shanghai",
   "scope": [
     "000510",
@@ -10,77 +10,19 @@
   "formal_risk_source": "latest.json_only_after_complete_read_time_validation",
   "formal_risk_substitute": false,
   "personal_data_collected": false,
-  "previous_trading_day": "2026-10-27",
+  "previous_trading_day": "2026-10-28",
   "indices": [
     {
       "code": "000510",
       "name": "中证A500",
-      "status": "stale_history",
-      "metrics": {
-        "date": "2026-10-28",
-        "source_timestamp": "2026-10-28T15:00:00+08:00",
-        "close": 4959.56,
-        "high": 4971.94,
-        "low": 4919.49,
-        "volume": 220487274.0,
-        "amount": 569665982593.6,
-        "volume_unit": "provider_reported_volume",
-        "amount_unit": "CNY",
-        "intraday_range_pct": 1.0661674279244249,
-        "return_1d_pct": 1.1822646028549988,
-        "volume_vs_previous_ratio": 1.023705180331688,
-        "return_5_sessions_pct": -1.1259878310380222,
-        "prior_close": 4901.61,
-        "prior_low": 4901.61,
-        "prior_high": 5008.09
-      },
-      "supporting_evidence": [
-        {
-          "fact": "completed_session_close_return",
-          "value_pct": 1.1822646028549988,
-          "date": "2026-10-28",
-          "source_id": "eastmoney.daily.000510.f64dcfe485b21cd6f49f",
-          "interpretation": "price_observation_not_proof_of_bottom"
-        },
-        {
-          "fact": "low_holds_prior_session_low",
-          "value": true,
-          "date": "2026-10-28",
-          "source_id": "eastmoney.daily.000510.f64dcfe485b21cd6f49f"
-        }
-      ],
+      "status": "unavailable",
+      "metrics": null,
+      "supporting_evidence": [],
       "opposing_evidence": [],
       "confidence": "insufficient",
       "thesis_status": "untested",
       "falsifier": "后续收盘再破前低或低点持续下移，且成长/广度未改善",
       "next_proof": "下个完成交易日的低点、收盘、量能，以及同口径广度和前一交易日ETF净申购",
-      "source": {
-        "source_id": "eastmoney.daily.000510.f64dcfe485b21cd6f49f",
-        "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000510&klt=101&fqt=0&beg=20260411&end=20261028&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
-        "provider": "eastmoney",
-        "received_at": "2026-10-28T15:32:27.038444+08:00",
-        "source_timestamp": "2026-10-28T15:00:00+08:00",
-        "response_sha256": "f64dcfe485b21cd6f49f617604a557abf56d59273ee125c94bffbc7faaaa0b57",
-        "http_status": 200,
-        "transport": "requests",
-        "identity_verified": true,
-        "source_code": "000510",
-        "source_name": "中证A500",
-        "identity_origin": "same_daily_response",
-        "secid": "1.000510",
-        "status": "ok",
-        "timestamp_timezone": "Asia/Shanghai",
-        "timestamp_kind": "completed_daily_bar_exchange_close",
-        "volume_unit": "provider_reported_volume",
-        "amount_unit": "CNY",
-        "decision_cutoff": "2026-10-28T15:32:26.098905+08:00",
-        "limitations": [
-          "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
-          "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
-        ]
-      },
-      "history_records": 137,
-      "latest_session_is_previous_trading_day": false,
       "scenarios": {
         "method": "conditional_observation_no_probability_or_price_target",
         "observed_completed_session": null,
@@ -146,72 +88,14 @@
     {
       "code": "399673",
       "name": "创业板50",
-      "status": "stale_history",
-      "metrics": {
-        "date": "2026-10-28",
-        "source_timestamp": "2026-10-28T15:00:00+08:00",
-        "close": 2683.44,
-        "high": 2693.84,
-        "low": 2606.92,
-        "volume": 19064253.0,
-        "amount": 141284509824.19,
-        "volume_unit": "provider_reported_volume",
-        "amount_unit": "CNY",
-        "intraday_range_pct": 3.33420281404877,
-        "return_1d_pct": 3.6385334636166,
-        "volume_vs_previous_ratio": 1.0880548526693745,
-        "return_5_sessions_pct": -2.3504110217137386,
-        "prior_close": 2589.23,
-        "prior_low": 2589.23,
-        "prior_high": 2716.91
-      },
-      "supporting_evidence": [
-        {
-          "fact": "completed_session_close_return",
-          "value_pct": 3.6385334636166,
-          "date": "2026-10-28",
-          "source_id": "eastmoney.daily.399673.dfec92fa63c184a8fbfa",
-          "interpretation": "price_observation_not_proof_of_bottom"
-        },
-        {
-          "fact": "low_holds_prior_session_low",
-          "value": true,
-          "date": "2026-10-28",
-          "source_id": "eastmoney.daily.399673.dfec92fa63c184a8fbfa"
-        }
-      ],
+      "status": "unavailable",
+      "metrics": null,
+      "supporting_evidence": [],
       "opposing_evidence": [],
       "confidence": "insufficient",
       "thesis_status": "untested",
       "falsifier": "后续收盘再破前低或低点持续下移，且成长/广度未改善",
       "next_proof": "下个完成交易日的低点、收盘、量能，以及同口径广度和前一交易日ETF净申购",
-      "source": {
-        "source_id": "eastmoney.daily.399673.dfec92fa63c184a8fbfa",
-        "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399673&klt=101&fqt=0&beg=20260411&end=20261028&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
-        "provider": "eastmoney",
-        "received_at": "2026-10-28T15:32:27.083074+08:00",
-        "source_timestamp": "2026-10-28T15:00:00+08:00",
-        "response_sha256": "dfec92fa63c184a8fbfa3a131604279eb7f884cdaafb47f0d262e5e37a2692ac",
-        "http_status": 200,
-        "transport": "requests",
-        "identity_verified": true,
-        "source_code": "399673",
-        "source_name": "创业板50",
-        "identity_origin": "same_daily_response",
-        "secid": "0.399673",
-        "status": "ok",
-        "timestamp_timezone": "Asia/Shanghai",
-        "timestamp_kind": "completed_daily_bar_exchange_close",
-        "volume_unit": "provider_reported_volume",
-        "amount_unit": "CNY",
-        "decision_cutoff": "2026-10-28T15:32:26.098905+08:00",
-        "limitations": [
-          "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
-          "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
-        ]
-      },
-      "history_records": 137,
-      "latest_session_is_previous_trading_day": false,
       "scenarios": {
         "method": "conditional_observation_no_probability_or_price_target",
         "observed_completed_session": null,
@@ -275,61 +159,10 @@
       }
     }
   ],
-  "sources": [
-    {
-      "source_id": "eastmoney.daily.000510.f64dcfe485b21cd6f49f",
-      "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000510&klt=101&fqt=0&beg=20260411&end=20261028&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
-      "provider": "eastmoney",
-      "received_at": "2026-10-28T15:32:27.038444+08:00",
-      "source_timestamp": "2026-10-28T15:00:00+08:00",
-      "response_sha256": "f64dcfe485b21cd6f49f617604a557abf56d59273ee125c94bffbc7faaaa0b57",
-      "http_status": 200,
-      "transport": "requests",
-      "identity_verified": true,
-      "source_code": "000510",
-      "source_name": "中证A500",
-      "identity_origin": "same_daily_response",
-      "secid": "1.000510",
-      "status": "ok",
-      "timestamp_timezone": "Asia/Shanghai",
-      "timestamp_kind": "completed_daily_bar_exchange_close",
-      "volume_unit": "provider_reported_volume",
-      "amount_unit": "CNY",
-      "decision_cutoff": "2026-10-28T15:32:26.098905+08:00",
-      "limitations": [
-        "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
-        "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
-      ]
-    },
-    {
-      "source_id": "eastmoney.daily.399673.dfec92fa63c184a8fbfa",
-      "url": "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=0.399673&klt=101&fqt=0&beg=20260411&end=20261028&lmt=120&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61",
-      "provider": "eastmoney",
-      "received_at": "2026-10-28T15:32:27.083074+08:00",
-      "source_timestamp": "2026-10-28T15:00:00+08:00",
-      "response_sha256": "dfec92fa63c184a8fbfa3a131604279eb7f884cdaafb47f0d262e5e37a2692ac",
-      "http_status": 200,
-      "transport": "requests",
-      "identity_verified": true,
-      "source_code": "399673",
-      "source_name": "创业板50",
-      "identity_origin": "same_daily_response",
-      "secid": "0.399673",
-      "status": "ok",
-      "timestamp_timezone": "Asia/Shanghai",
-      "timestamp_kind": "completed_daily_bar_exchange_close",
-      "volume_unit": "provider_reported_volume",
-      "amount_unit": "CNY",
-      "decision_cutoff": "2026-10-28T15:32:26.098905+08:00",
-      "limitations": [
-        "Volume is retained in the provider's original convention; no unverified conversion to shares or ETF subscriptions is applied.",
-        "A completed daily bar does not establish intraday market breadth or formal 14:30 risk."
-      ]
-    }
-  ],
+  "sources": [],
   "gaps": [
-    "000510:daily_not_previous_trading_day",
-    "399673:daily_not_previous_trading_day",
+    "000510:completed_daily_evidence_unavailable",
+    "399673:completed_daily_evidence_unavailable",
     "breadth:No validated full-market breadth source with defined universe was available.",
     "etf_flows:No verified previous-trading-day broad ETF net-subscription source; turnover and capital-flow estimates are not subscriptions."
   ],
@@ -379,7 +212,7 @@
           "excerpt_sha256": "57b0eb6a668ff143fb3be363eeb6241a77187f8c71184c10f620e963622ef672"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 4,
+        "review_age_days": 5,
         "needs_source_recheck": false,
         "date": "2026-11-09",
         "scheduled_at": "2026-11-09T09:30:00+08:00",
@@ -405,7 +238,7 @@
           "excerpt_sha256": "61cbce1db47431655a4be647a48b03bd2c46cdb0aff0b867bc28ffdb97cefbc5"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 4,
+        "review_age_days": 5,
         "needs_source_recheck": false,
         "date": "2026-11-16",
         "scheduled_at": "2026-11-16T10:00:00+08:00",
@@ -431,7 +264,7 @@
           "excerpt_sha256": "1d4e7b4c33576d2550f95fb47928c4c1e438394494513daae8444c519e5dac8b"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 4,
+        "review_age_days": 5,
         "needs_source_recheck": false,
         "date": null,
         "scheduled_at": null,
@@ -460,7 +293,7 @@
           "excerpt_sha256": "1a10a222faa384deafcb31e6837520aa46dfaeafe0b401c53519db8596f5fa2b"
         },
         "published_at_precision": "date_only",
-        "review_age_days": 4,
+        "review_age_days": 5,
         "needs_source_recheck": false,
         "date": null,
         "scheduled_at": null,
