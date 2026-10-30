@@ -2,16 +2,16 @@
   "schema_version": "1.0",
   "data_kind": "live",
   "status": "ok",
-  "generated_at": "2026-10-29T14:30:02.173593+08:00",
+  "generated_at": "2026-10-30T14:30:02.993825+08:00",
   "timezone": "Asia/Shanghai",
-  "target_at": "2026-10-29T14:30:00+08:00",
+  "target_at": "2026-10-30T14:30:00+08:00",
   "max_age_seconds": 300,
   "live_usable_at_collection": true,
-  "expires_at": "2026-10-29T14:35:00+08:00",
+  "expires_at": "2026-10-30T14:35:00+08:00",
   "trading_day": {
     "source": "akshare.tool_trade_date_hist_sina",
-    "checked_at": "2026-10-29T13:51:32.080638+08:00",
-    "date": "2026-10-29",
+    "checked_at": "2026-10-30T13:52:26.405770+08:00",
+    "date": "2026-10-30",
     "is_trading_day": true,
     "coverage_start": "1990-12-19",
     "coverage_end": "2026-12-31",
@@ -32,22 +32,22 @@
         "response_code": "000510",
         "response_name": "中证A500",
         "identity_origin": "same_minute_response",
-        "response_sha256": "7f0928328d8ac0ed7df538b00f79d1c4770feff73790389e20652c4aba02e427",
-        "received_at": "2026-10-29T14:30:01.920882+08:00",
+        "response_sha256": "bfb268975ad578f2058e590fdb49a6de7d427d8186bdf902824cf41457709d3b",
+        "received_at": "2026-10-30T14:30:02.123238+08:00",
         "period_minutes": 1,
         "transport": "requests",
         "timestamp_kind": "source_minute_bar_time",
         "timestamp_timezone": "Asia/Shanghai",
         "excluded_incomplete_bar": {
-          "timestamp": "2026-10-29T14:31:00+08:00",
+          "timestamp": "2026-10-30T14:31:00+08:00",
           "reason": "next_minute_in_progress_at_receipt"
         }
       },
-      "source_timestamp": "2026-10-29T14:30:00+08:00",
-      "age_seconds": 2.173593,
-      "expires_at": "2026-10-29T14:35:00+08:00",
+      "source_timestamp": "2026-10-30T14:30:00+08:00",
+      "age_seconds": 2.993825,
+      "expires_at": "2026-10-30T14:35:00+08:00",
       "quote": {
-        "close": 4899.41,
+        "close": 4817.35,
         "unit": "index_points"
       },
       "reasons": []
@@ -66,18 +66,22 @@
         "response_code": "399673",
         "response_name": "创业板50",
         "identity_origin": "same_minute_response",
-        "response_sha256": "4cb3af9c55bbb59bc9c42ab670e66616ffb2d7a7a870480b995ebaccefe1ae21",
-        "received_at": "2026-10-29T14:30:02.007382+08:00",
+        "response_sha256": "9daa64de78f9340d2d2f1e6566d40a45535957572c3094a0561bae3c2c29aede",
+        "received_at": "2026-10-30T14:30:02.875108+08:00",
         "period_minutes": 1,
         "transport": "requests",
         "timestamp_kind": "source_minute_bar_time",
-        "timestamp_timezone": "Asia/Shanghai"
+        "timestamp_timezone": "Asia/Shanghai",
+        "excluded_incomplete_bar": {
+          "timestamp": "2026-10-30T14:31:00+08:00",
+          "reason": "next_minute_in_progress_at_receipt"
+        }
       },
-      "source_timestamp": "2026-10-29T14:30:00+08:00",
-      "age_seconds": 2.173593,
-      "expires_at": "2026-10-29T14:35:00+08:00",
+      "source_timestamp": "2026-10-30T14:30:00+08:00",
+      "age_seconds": 2.993825,
+      "expires_at": "2026-10-30T14:35:00+08:00",
       "quote": {
-        "close": 2574.78,
+        "close": 2468.54,
         "unit": "index_points"
       },
       "reasons": []
@@ -120,22 +124,24 @@
         "canonical_code": "000510",
         "canonical_name": "中证A500",
         "status": "ok",
-        "level": "no_trigger",
-        "as_of": "2026-10-29T14:30:00+08:00",
-        "expires_at": "2026-10-29T14:35:00+08:00",
+        "level": "watch",
+        "as_of": "2026-10-30T14:30:00+08:00",
+        "expires_at": "2026-10-30T14:35:00+08:00",
         "metrics": {
-          "drawdown_from_sampled_peak_pct": 0.9079141637845622,
-          "return_20m_pct": 0.1455351175012165,
-          "below_morning_sampled_low_pct": -0.44796988658262205,
-          "current_close": 4899.41,
-          "sampled_peak_close": 4944.3,
-          "morning_sampled_low_close": 4877.56,
-          "reference_20m_close": 4892.29,
-          "reference_20m_timestamp": "2026-10-29T14:10:00+08:00",
+          "drawdown_from_sampled_peak_pct": 1.5446777288863678,
+          "return_20m_pct": -0.330002275877761,
+          "below_morning_sampled_low_pct": -0.6176140089979132,
+          "current_close": 4817.35,
+          "sampled_peak_close": 4892.93,
+          "morning_sampled_low_close": 4787.78,
+          "reference_20m_close": 4833.3,
+          "reference_20m_timestamp": "2026-10-30T14:10:00+08:00",
           "sample_count": 211,
           "bar_period_minutes": 1
         },
-        "triggers": [],
+        "triggers": [
+          "peak_drawdown"
+        ],
         "reasons": []
       },
       {
@@ -143,17 +149,17 @@
         "canonical_name": "创业板50",
         "status": "ok",
         "level": "watch",
-        "as_of": "2026-10-29T14:30:00+08:00",
-        "expires_at": "2026-10-29T14:35:00+08:00",
+        "as_of": "2026-10-30T14:30:00+08:00",
+        "expires_at": "2026-10-30T14:35:00+08:00",
         "metrics": {
-          "drawdown_from_sampled_peak_pct": 2.487445369367447,
-          "return_20m_pct": -0.0027186049672667245,
-          "below_morning_sampled_low_pct": -0.1859922178988338,
-          "current_close": 2574.78,
-          "sampled_peak_close": 2640.46,
-          "morning_sampled_low_close": 2570.0,
-          "reference_20m_close": 2574.85,
-          "reference_20m_timestamp": "2026-10-29T14:10:00+08:00",
+          "drawdown_from_sampled_peak_pct": 3.0195647049579666,
+          "return_20m_pct": -0.4444336898482004,
+          "below_morning_sampled_low_pct": -0.7353541289195853,
+          "current_close": 2468.54,
+          "sampled_peak_close": 2545.4,
+          "morning_sampled_low_close": 2450.52,
+          "reference_20m_close": 2479.56,
+          "reference_20m_timestamp": "2026-10-30T14:10:00+08:00",
           "sample_count": 211,
           "bar_period_minutes": 1
         },
@@ -166,8 +172,8 @@
     "consumer_rule": "Use only after the snapshot passes the independent read-time freshness gate; unavailable is not no_trigger; no_trigger does not mean safe."
   },
   "collection": {
-    "started_at": "2026-10-29T13:51:31.309106+08:00",
-    "capture_deadline": "2026-10-29T14:32:00+08:00",
+    "started_at": "2026-10-30T13:52:25.553670+08:00",
+    "capture_deadline": "2026-10-30T14:32:00+08:00",
     "attempt_count": 1,
     "schedule_late": false
   }
